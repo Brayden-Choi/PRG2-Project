@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "6zTJo5UFqkYCT5kvWeort0UTn9gmFkVFbJ2jSCFL2aBxagDY6kyWFbVsc2XiT+hmueboT1xSy+JK47ZAq4wMkA==",
+  "dgSpecHash": "xuYdaeYBywp2yvX1ORfdAeGYn9+Wd954KGnItZ3wk0/Tpnt0yAOuNiHmF6e4gjhCIFbgpiWjJwAa8YuXtx5tDA==",
   "success": true,
   "projectFilePath": "C:\\Users\\elsa\\Desktop\\OCT 2020 Y1S2\\PRG2\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\elsa\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
