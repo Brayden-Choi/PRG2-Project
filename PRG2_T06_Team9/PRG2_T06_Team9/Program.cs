@@ -82,15 +82,29 @@ namespace PRG2_T06_Team9
                     string lastCountry = person[9];
                     string entryMode = person[10];
                     DateTime entryDate = Convert.ToDateTime(person[11]);
-                    string facilityName = person[14];
                     Visitor visitorObj = new Visitor(name, passportNo, nationality);
                     TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
                     travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
                     travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
                     visitorObj.AddTravelEntry(travelEntryObj);
                     personList.Add(visitorObj);
+
+                    string facilityName = person[14];
+                    SHNFacility facility = SearchFacility(facilityList, facilityName);
+                    travelEntryObj.ShnStay = facility;
                 }
             }
+        }
+        static SHNFacility SearchFacility(List<SHNFacility> fList, string f)
+        {
+            for (int i = 0; i < fList.Count; i++)
+            {
+                if (f == fList[i].FacilityName)
+                {
+                    return fList[i];
+                }
+            }
+            return null;
         }
     }
 }
