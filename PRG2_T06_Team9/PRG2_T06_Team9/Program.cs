@@ -21,10 +21,6 @@ namespace PRG2_T06_Team9
             GetFacilityDetails(facilityList);
             List<Person> personList = new List<Person>();
             InitPersonList(personList, facilityList);
-            for (int i = 0; i < facilityList.Count; i++)
-            {
-                Console.WriteLine(facilityList[i]);
-            }
         }
 
         static void GetFacilityDetails(List<SHNFacility> facilityList)
@@ -86,11 +82,11 @@ namespace PRG2_T06_Team9
                     string lastCountry = person[9];
                     string entryMode = person[10];
                     DateTime entryDate = Convert.ToDateTime(person[11]);
-                    DateTime endDate = Convert.ToDateTime(person[12]);
-                    bool travelPaid = Convert.ToBoolean(person[13]);
                     string facilityName = person[14];
                     Visitor visitorObj = new Visitor(name, passportNo, nationality);
                     TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
+                    travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
+                    travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
                     visitorObj.AddTravelEntry(travelEntryObj);
                     personList.Add(visitorObj);
                 }
