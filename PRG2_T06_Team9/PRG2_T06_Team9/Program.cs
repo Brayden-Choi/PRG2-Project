@@ -80,7 +80,6 @@ namespace PRG2_T06_Team9
 
                 if (person[0] == "visitor")
                 {
-
                     string name = person[1];
                     string passportNo = person[4];
                     string nationality = person[5];
@@ -94,7 +93,6 @@ namespace PRG2_T06_Team9
                     TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
                     visitorObj.AddTravelEntry(travelEntryObj);
                     personList.Add(visitorObj);
-
                 }
             }
         }
