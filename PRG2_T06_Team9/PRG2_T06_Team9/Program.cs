@@ -95,6 +95,7 @@ namespace PRG2_T06_Team9
                 }
             }
         }
+
         static SHNFacility SearchFacility(List<SHNFacility> fList, string f)
         {
             for (int i = 0; i < fList.Count; i++)
