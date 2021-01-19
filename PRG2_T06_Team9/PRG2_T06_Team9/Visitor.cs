@@ -21,10 +21,46 @@ namespace PRG2_T06_Team9
             Nationality = nationality;
         }
 
-        /*public override double CalculateSHNCharges()
+        public override double CalculateSHNCharges()
         {
+            //Checking for the last country of embarkation
 
-        }*/
+            float price = 0;
+            if (person.LastCountryOfEmbarkation == "New Zealand" && person.LastCountryOfEmbarkation == "Vietnam")
+            {
+                if (person.CalculateSHNDuration() == 0)
+                {
+                    price = 200;
+                }
+
+                else if (person.CalculateSHNDuration() == 7)
+
+                {
+                    price = 200 + 20;
+                }
+
+                else
+                {
+                    price = 1000 + 200 + 20;
+                }
+            }
+
+            else if (person.LastCountryOfEmbarkation == "Macao SAR")
+            {
+
+            }
+
+            else
+            {
+
+            }
+        }
+
+        public override string ToString()
+        {
+            return Name + TravelEntryList;
+        }
+    }
 
         public override string ToString()
         {

@@ -38,14 +38,9 @@ namespace PRG2_T06_Team9
             SafeEntryList.Add(safeEntryDetails);
         }
 
-        /*public virtual double CalculateSHNCharges()
+        public virtual double CalculateSHNCharges()
         {
 
-        }*/
-
-        public override string ToString()
-        {
-            return Name + TravelEntryList;
         }
     }
 }
