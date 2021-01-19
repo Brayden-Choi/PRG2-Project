@@ -58,20 +58,23 @@ namespace PRG2_T06_Team9
                     string collectionLocation = person[7];
                     string lastCountry = person[9];
                     string entryMode = person[10];
-                    DateTime entryDate = Convert.ToDateTime(person[11]);
-                    Resident residentObj = new Resident(name, addr, lastLeft);
-                    TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
-                    residentObj.AddTravelEntry(travelEntryObj);
-                    travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
-                    travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
-
-                    if (person[8] != "")
+                    if (person[11] != "")
                     {
-                        DateTime tokenExpiry = Convert.ToDateTime(person[8]);
-                        residentObj.Token = new TraceTogetherToken(serialNo, collectionLocation, tokenExpiry);
-                    }
+                        DateTime entryDate = Convert.ToDateTime(person[11]);
+                        Resident residentObj = new Resident(name, addr, lastLeft);
+                        TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
+                        residentObj.AddTravelEntry(travelEntryObj);
+                        travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
+                        travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
 
-                    personList.Add(residentObj);
+                        if (person[8] != "")
+                        {
+                            DateTime tokenExpiry = Convert.ToDateTime(person[8]);
+                            residentObj.Token = new TraceTogetherToken(serialNo, collectionLocation, tokenExpiry);
+                        }
+
+                        personList.Add(residentObj);
+                    }
                 }
 
                 if (person[0] == "visitor")
@@ -81,17 +84,19 @@ namespace PRG2_T06_Team9
                     string nationality = person[5];
                     string lastCountry = person[9];
                     string entryMode = person[10];
-                    DateTime entryDate = Convert.ToDateTime(person[11]);
-                    Visitor visitorObj = new Visitor(name, passportNo, nationality);
-                    TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
-                    travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
-                    travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
-                    visitorObj.AddTravelEntry(travelEntryObj);
-                    personList.Add(visitorObj);
-
-                    string facilityName = person[14];
-                    SHNFacility facility = SearchFacility(facilityList, facilityName);
-                    travelEntryObj.ShnStay = facility;
+                    if (person[11] != "")
+                    {
+                        DateTime entryDate = Convert.ToDateTime(person[11]);
+                        Visitor visitorObj = new Visitor(name, passportNo, nationality);
+                        TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
+                        travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
+                        travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
+                        visitorObj.AddTravelEntry(travelEntryObj);
+                        personList.Add(visitorObj);
+                        string facilityName = person[14];
+                        SHNFacility facility = SearchFacility(facilityList, facilityName);
+                        travelEntryObj.ShnStay = facility;
+                    }
                 }
             }
         }
