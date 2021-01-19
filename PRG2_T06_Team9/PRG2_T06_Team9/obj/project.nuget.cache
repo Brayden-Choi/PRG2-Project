@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "vn3U8ySHgXYRutumoPbSvBy4NpSsXAG5C2bZPmdQWtVCH4fj/YzyQI1q69kiiysnegnnACaFOANTXPiTyW4qzg==",
+  "dgSpecHash": "GYgkmV0BNfKCqqRcQT1zN+B2pqCykbW8b/TSeikISfh79EVD1G9rQLHPj6Jh00Uulj78G7Iqjds8ulg1Roy66g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Brayden\\Documents\\prg2_t06_team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Brayden\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
