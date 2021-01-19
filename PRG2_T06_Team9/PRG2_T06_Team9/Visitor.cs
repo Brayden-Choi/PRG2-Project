@@ -21,10 +21,10 @@ namespace PRG2_T06_Team9
             Nationality = nationality;
         }
 
-        public override double CalculateSHNCharges()
+        /*public override double CalculateSHNCharges()
         {
 
-        }
+        }*/
 
         public override string ToString()
         {

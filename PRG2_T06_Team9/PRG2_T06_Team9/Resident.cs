@@ -22,9 +22,9 @@ namespace PRG2_T06_Team9
             LastLeftCountry = lastLeftCountry;
         }
 
-        public override double CalculateSHNCharges()
+        /*public override double CalculateSHNCharges()
         {
-        }
+        }*/
 
         public override string ToString()
         {

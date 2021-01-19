@@ -21,6 +21,11 @@ namespace PRG2_T06_Team9
             GetFacilityDetails(facilityList);
             List<Person> personList = new List<Person>();
             InitPersonList(personList, facilityList);
+
+            for (int i = 0; i < personList.Count; i++)
+            {
+                Console.WriteLine(personList[i].Name, personList[i].TravelEntryList);
+            }
         }
 
         static void GetFacilityDetails(List<SHNFacility> facilityList)
@@ -51,51 +56,76 @@ namespace PRG2_T06_Team9
 
                 if (person[0] == "resident")
                 {
+                    //Add a new Resident
                     string name = person[1];
                     string addr = person[2];
                     DateTime lastLeft = Convert.ToDateTime(person[3]);
-                    string serialNo = person[6];
-                    string collectionLocation = person[7];
-                    string lastCountry = person[9];
-                    string entryMode = person[10];
-                    if (person[11] != "")
+                    Resident residentObj = new Resident(name, addr, lastLeft);
+
+
+                    //If the resident has a token, add the token to the Resident Object
+                    if (person[6] != "")
                     {
+                        string serialNo = person[6];
+                        string collectionLocation = person[7];
+                        DateTime tokenExpiry = Convert.ToDateTime(person[8]);
+                        residentObj.Token = new TraceTogetherToken(serialNo, collectionLocation, tokenExpiry);
+                    }
+
+
+                    //If there are travel details for the resident, add it to the Resident Object
+                    if (person[9] != "")
+                    {
+                        string lastCountry = person[9];
+                        string entryMode = person[10];
                         DateTime entryDate = Convert.ToDateTime(person[11]);
-                        Resident residentObj = new Resident(name, addr, lastLeft);
                         TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
-                        residentObj.AddTravelEntry(travelEntryObj);
                         travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
                         travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
+                        residentObj.AddTravelEntry(travelEntryObj);
 
-                        if (person[8] != "")
+
+                        //If the resident is assigned a facility, add the facility to their travel entry
+                        if (person[14] != "")
                         {
-                            DateTime tokenExpiry = Convert.ToDateTime(person[8]);
-                            residentObj.Token = new TraceTogetherToken(serialNo, collectionLocation, tokenExpiry);
+                            string facilityName = person[14];
+                            SHNFacility facility = SearchFacility(facilityList, facilityName);
+                            travelEntryObj.ShnStay = facility;
                         }
-
-                        personList.Add(residentObj);
                     }
+
+                    //Add the Resident Object to the Person List
+                    personList.Add(residentObj);
                 }
 
                 if (person[0] == "visitor")
                 {
+                    //Add a new Visitor
                     string name = person[1];
                     string passportNo = person[4];
                     string nationality = person[5];
-                    string lastCountry = person[9];
-                    string entryMode = person[10];
-                    if (person[11] != "")
+                    Visitor visitorObj = new Visitor(name, passportNo, nationality);
+
+
+                    //If there are travel details for the visitor, add it to the Visitor Object
+                    if (person[9] != "")
                     {
+                        string lastCountry = person[9];
+                        string entryMode = person[10];
                         DateTime entryDate = Convert.ToDateTime(person[11]);
-                        Visitor visitorObj = new Visitor(name, passportNo, nationality);
                         TravelEntry travelEntryObj = new TravelEntry(lastCountry, entryMode, entryDate);
                         travelEntryObj.ShnEndDate = Convert.ToDateTime(person[12]);
                         travelEntryObj.IsPaid = Convert.ToBoolean(person[13]);
                         visitorObj.AddTravelEntry(travelEntryObj);
-                        personList.Add(visitorObj);
-                        string facilityName = person[14];
-                        SHNFacility facility = SearchFacility(facilityList, facilityName);
-                        travelEntryObj.ShnStay = facility;
+
+
+                        //If the visitor is assigned a facility, add the facility to their travel entry
+                        if (person[14] != "")
+                        {
+                            string facilityName = person[14];
+                            SHNFacility facility = SearchFacility(facilityList, facilityName);
+                            travelEntryObj.ShnStay = facility;
+                        }
                     }
                 }
             }
