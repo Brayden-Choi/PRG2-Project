@@ -38,7 +38,7 @@ namespace PRG2_T06_Team9
 
         public void CalculateSHNDuration(Person personDetails)
         {
-
+            
         }
 
         public override string ToString()
