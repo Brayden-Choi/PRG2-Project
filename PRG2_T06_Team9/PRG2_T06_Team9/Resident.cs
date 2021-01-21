@@ -24,8 +24,6 @@ namespace PRG2_T06_Team9
 
         public override double CalculateSHNCharges()
         {
-            //Checking for the last country of embarkation
-
             double totalcost = 0;
             for (int i = 0; i < TravelEntryList.Count; i++)
             {
@@ -33,11 +31,9 @@ namespace PRG2_T06_Team9
                 {
                     totalcost = 200 + 20;
                 }
-
                 else
                 {
-                    double transportationCost = TravelEntryList[i].ShnStay.CalculateTravelCost();
-                    totalcost = 1000 + 200 + 20 + transportationCost;
+                    totalcost = 1000 + 200 + 20;
                 }
             }
             return totalcost;
