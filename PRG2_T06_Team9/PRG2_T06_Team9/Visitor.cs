@@ -33,7 +33,7 @@ namespace PRG2_T06_Team9
                 }
                 else
                 {
-                    double transportationCost = TravelEntryList[i].ShnStay.CalculateTravelCost();
+                    double transportationCost = TravelEntryList[i].ShnStay.CalculateTravelCost(TravelEntryList[i].EntryMode, TravelEntryList[i].EntryDate);
                     totalcost += transportationCost + 200 + 2000;
                 }
             }

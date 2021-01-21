@@ -33,14 +33,27 @@ namespace PRG2_T06_Team9
             DistFromLandCheckpoint = distFromLandCheckpoint;
         }
 
-        public double CalculateTravelCost()
+        public double CalculateTravelCost(string entryMode, DateTime entryDate)
         {
-            for (int i = 0; i < TravelEntryList[i]; i++)
+            double baseFare = 0;
+            if (entryMode == "Air")
             {
-                if (person.EntryMode == "Air")
+                baseFare += 50 + DistFromAirCheckpoint * 0.22;
+                var start = new TimeSpan(6, 0, 0);
+                
+                if (entryDate.TimeOfDay >= start)
                 {
 
                 }
+
+            }
+            else if (entryMode == "Land")
+            {
+                baseFare += 50 + DistFromLandCheckpoint * 0.22;
+            }
+            else if (entryMode == "Sea")
+            {
+                baseFare += 50 + DistFromSeaCheckpoint * 0.22;
             }
         }
 
