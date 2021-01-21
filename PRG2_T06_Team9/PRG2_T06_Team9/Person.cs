@@ -42,5 +42,9 @@ namespace PRG2_T06_Team9
         {
 
         }
+        public override string ToString()
+        {
+            return base.ToString(); 
+        }
     }
 }

@@ -23,37 +23,25 @@ namespace PRG2_T06_Team9
 
         public override double CalculateSHNCharges()
         {
+<<<<<<< HEAD
             //Checking for the last country of embarkation
+=======
+            double totalcost = 0;
+>>>>>>> 41cb2aaae0e4e9dc16e3681390db287a65e02eb6
 
-            double price = 0;
-            if (person.LastCountryOfEmbarkation == "New Zealand" && person.LastCountryOfEmbarkation == "Vietnam")
+            for (int i = 0; i < TravelEntryList.Count; i++)
             {
-                if (person.CalculateSHNDuration() == 0)
+                if (TravelEntryList[i].LastCountryOfEmbarkation == "New Zealand" || TravelEntryList[i].LastCountryOfEmbarkation == "Vietnam" || TravelEntryList[i].LastCountryOfEmbarkation == "Macao SAR")
                 {
-                    price = 200;
+                    totalcost += 200 + 80;
                 }
-
-                else if (person.CalculateSHNDuration() == 7)
-
-                {
-                    price = 200 + 20;
-                }
-
                 else
                 {
-                    price = 1000 + 200 + 20;
+                    double transportationCost = TravelEntryList[i].ShnStay.CalculateTravelCost();
+                    totalcost += transportationCost + 200 + 2000;
                 }
             }
-
-            else if (person.LastCountryOfEmbarkation == "Macao SAR")
-            {
-
-            }
-
-            else
-            {
-
-            }
+            return totalcost;
         }
 
         public override string ToString()

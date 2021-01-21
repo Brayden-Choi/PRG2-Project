@@ -35,6 +35,7 @@ namespace PRG2_T06_Team9
 
         public double CalculateTravelCost()
         {
+<<<<<<< HEAD
             for (int i = 0; i < TravelEntryList[i]; i++)
             {
                 if (person.EntryMode == "Air")
@@ -42,6 +43,9 @@ namespace PRG2_T06_Team9
 
                 }
             }
+=======
+
+>>>>>>> 41cb2aaae0e4e9dc16e3681390db287a65e02eb6
         }
 
         public bool IsAvailable()
