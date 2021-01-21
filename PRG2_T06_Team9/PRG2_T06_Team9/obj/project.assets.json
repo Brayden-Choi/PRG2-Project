@@ -52,19 +52,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Brayden\\.nuget\\packages\\": {}
+    "C:\\Users\\elsa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Brayden\\Documents\\prg2_t06_team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9.csproj",
+      "projectUniqueName": "C:\\Users\\elsa\\Desktop\\OCT 2020 Y1S2\\PRG2\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9.csproj",
       "projectName": "PRG2_T06_Team9",
-      "projectPath": "C:\\Users\\Brayden\\Documents\\prg2_t06_team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9.csproj",
-      "packagesPath": "C:\\Users\\Brayden\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Brayden\\Documents\\prg2_t06_team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\obj\\",
+      "projectPath": "C:\\Users\\elsa\\Desktop\\OCT 2020 Y1S2\\PRG2\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9.csproj",
+      "packagesPath": "C:\\Users\\elsa\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\elsa\\Desktop\\OCT 2020 Y1S2\\PRG2\\PRG2_T06_Team9\\PRG2_T06_Team9\\PRG2_T06_Team9\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Brayden\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\elsa\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -110,7 +110,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
