@@ -23,6 +23,10 @@ namespace PRG2_T06_Team9
 
         public override double CalculateSHNCharges()
         {
+<<<<<<< HEAD
+            
+        }
+=======
             //Checking for the last country of embarkation
 
             double price = 0;
@@ -61,6 +65,7 @@ namespace PRG2_T06_Team9
             return Name + TravelEntryList;
         }
     }
+>>>>>>> e3556ba3d60abb0a370a2a295ac1e64f6e3accda
 
         public override string ToString()
         {
