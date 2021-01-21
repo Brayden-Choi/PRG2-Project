@@ -131,6 +131,17 @@ namespace PRG2_T06_Team9
             }
         }
 
+        static void CalSHNCharges(List<Person> personList)
+        {
+            foreach (Person p in personList)
+            {
+                if (p is Visitor)
+                {
+                    p.CalculateSHNCharges();
+                }
+            }
+        }
+
         static SHNFacility SearchFacility(List<SHNFacility> fList, string f)
         {
             for (int i = 0; i < fList.Count; i++)
