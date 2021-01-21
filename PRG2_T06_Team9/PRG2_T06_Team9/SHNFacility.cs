@@ -39,13 +39,6 @@ namespace PRG2_T06_Team9
             if (entryMode == "Air")
             {
                 baseFare += 50 + DistFromAirCheckpoint * 0.22;
-                var start = new TimeSpan(6, 0, 0);
-                
-                if (entryDate.TimeOfDay >= start)
-                {
-
-                }
-
             }
             else if (entryMode == "Land")
             {
@@ -55,6 +48,25 @@ namespace PRG2_T06_Team9
             {
                 baseFare += 50 + DistFromSeaCheckpoint * 0.22;
             }
+
+            //Calculate surcharge
+            var morning_start = new TimeSpan(6, 0, 0);
+            var morning_end = new TimeSpan(8, 59, 0);
+            var evening_start = new TimeSpan(18, 0, 0);
+            var evening_end = new TimeSpan(23, 59, 0);
+            var midnight_start = new TimeSpan(24, 0, 0);
+            var midnight_end = new TimeSpan(5, 59, 0);
+
+            if ((entryDate.TimeOfDay >= morning_start && entryDate.TimeOfDay <= morning_end) || (entryDate.TimeOfDay >= evening_start && entryDate.TimeOfDay <= evening_end))
+            {
+                baseFare += baseFare * 0.25;
+            }
+            else if (entryDate.TimeOfDay >= midnight_start && entryDate.TimeOfDay <= midnight_end)
+            {
+                baseFare += baseFare * 0.50;
+            }
+
+            return baseFare;
         }
 
         public bool IsAvailable()
