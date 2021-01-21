@@ -26,6 +26,109 @@ namespace PRG2_T06_Team9
             {
                 Console.WriteLine(personList[i].Name, personList[i].TravelEntryList);
             }
+
+            while (true)
+            {
+                int option = DisplayMenu();
+                if (option == 1)
+                {
+
+                }
+
+                else if (option == 2)
+                {
+
+                }
+
+                else if (option == 3)
+                {
+
+                }
+           
+                else if (option == 4)
+                {
+
+                }
+
+                else if (option == 5)
+                {
+
+                }
+
+                else if (option == 6)
+                {
+
+                }
+                else if (option == 7)
+                {
+
+                }
+           
+                else if (option == 8)
+                {
+
+                }
+           
+                else if (option == 9)
+                {
+
+                }
+            
+                else if (option == 10)
+                {
+
+                }
+            
+                else if (option == 11)
+                {
+
+                }
+               
+                else if (option == 12)
+                {
+
+                }
+                
+                else if (option == 13)
+                {
+
+                }
+               
+                else if (option == 0)
+                {
+                    Console.WriteLine("Goodbye! Stay Safe!");
+                    break;
+                }
+
+            }
+        }
+
+        static int DisplayMenu()
+        {
+            Console.WriteLine("---------------- M E N U--------------------");
+            Console.WriteLine(" ");
+            Console.WriteLine("-----------------GENERAL--------------------");
+            Console.WriteLine("[1] Load Person and Business Location Data");
+            Console.WriteLine("[2] Load SHN Facility Data");
+            Console.WriteLine("[3] List All Visitors");
+            Console.WriteLine("[4] List Person Details");
+            Console.WriteLine(" ");
+            Console.WriteLine("--------SafeEntry/TraceTogether Token-------");
+            Console.WriteLine("[5] Assign/Replace TraceTogether Token");
+            Console.WriteLine("[6] List All Business Locations");
+            Console.WriteLine("[7] Edit Business Location Capacity");
+            Console.WriteLine("[8] SafeEntry Check-in");
+            Console.WriteLine("[9] SafeEntry Check-out");
+            Console.WriteLine(" ");
+            Console.WriteLine("-----------------TravelEntry----------------");
+            Console.WriteLine("[10] List All SHN Facilities");
+            Console.WriteLine("[11] Create Visitor");
+            Console.WriteLine("[12] Create TravelEntry Record");
+            Console.WriteLine("[13] Calculate SHN Charges");
+            Console.WriteLine("---------------------------------------------");
+            Console.Write("Enter your option: ");
+            int option = Convert.ToInt32(Console.ReadLine());
+            return option;
         }
 
         static void GetFacilityDetails(List<SHNFacility> facilityList)
