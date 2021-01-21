@@ -139,6 +139,11 @@ namespace PRG2_T06_Team9
                 {
                     p.CalculateSHNCharges();
                 }
+
+                else
+                {
+                    p.CalculateSHNCharges();
+                }
             }
         }
 
