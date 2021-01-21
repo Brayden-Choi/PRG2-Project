@@ -36,7 +36,7 @@ namespace PRG2_T06_Team9
             ShnStay = shnFacility;
         }
 
-        public void CalculateSHNDuration(Person personDetails)
+        public void CalculateSHNDuration()
         {
             
         }

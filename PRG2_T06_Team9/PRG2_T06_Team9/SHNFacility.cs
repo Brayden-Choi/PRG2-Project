@@ -33,10 +33,10 @@ namespace PRG2_T06_Team9
             DistFromLandCheckpoint = distFromLandCheckpoint;
         }
 
-        /*public double CalculateTravelCost()
+        public double CalculateTravelCost()
         {
-            
-        }*/
+
+        }
 
         public bool IsAvailable()
         {
