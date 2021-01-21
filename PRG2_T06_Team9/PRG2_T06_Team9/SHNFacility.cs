@@ -33,10 +33,16 @@ namespace PRG2_T06_Team9
             DistFromLandCheckpoint = distFromLandCheckpoint;
         }
 
-        /*public double CalculateTravelCost()
+        public double CalculateTravelCost()
         {
-            
-        }*/
+            for (int i = 0; i < TravelEntryList[i]; i++)
+            {
+                if (person.EntryMode == "Air")
+                {
+
+                }
+            }
+        }
 
         public bool IsAvailable()
         {

@@ -36,9 +36,22 @@ namespace PRG2_T06_Team9
             ShnStay = shnFacility;
         }
 
-        public void CalculateSHNDuration(Person personDetails)
+        public void CalculateSHNDuration()
         {
-            
+            if (LastCountryOfEmbarkation == "New Zealand" && LastCountryOfEmbarkation == "Vietnam")
+            {
+                ShnEndDate = EntryDate.AddDays(0);
+            }
+
+            else if (LastCountryOfEmbarkation == "Macao SAR")
+            {
+                ShnEndDate = EntryDate.AddDays(7);
+            }
+
+            else
+            {
+                ShnEndDate = EntryDate.AddDays(14);
+            }
         }
 
         public override string ToString()
