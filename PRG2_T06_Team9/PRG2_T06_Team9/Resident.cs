@@ -41,7 +41,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return Address;
+            return base.ToString() + string.Format("Address: {0,-15}", Address);
         }
     }
 }

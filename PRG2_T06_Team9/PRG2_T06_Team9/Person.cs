@@ -40,11 +40,12 @@ namespace PRG2_T06_Team9
 
         public virtual double CalculateSHNCharges()
         {
-
+            return 1.0;
         }
+
         public override string ToString()
         {
-            return base.ToString(); 
+            return string.Format("Name: {0,-14}", Name); 
         }
     }
 }

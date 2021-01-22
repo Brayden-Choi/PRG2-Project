@@ -22,25 +22,25 @@ namespace PRG2_T06_Team9
             List<Person> personList = new List<Person>();
             InitPersonList(personList, facilityList);
 
-            for (int i = 0; i < personList.Count; i++)
-            {
-                Console.WriteLine(personList[i].Name, personList[i].TravelEntryList);
-            }
-
             while (true)
             {
                 int option = DisplayMenu();
                 if (option == 1)
                 {
-
+                    DisplayAllVisitors(personList);
+                    Console.WriteLine();
                 }
 
                 else if (option == 2)
                 {
-
+                    Console.Write("Enter your name: ");
+                    string personName = Console.ReadLine();
+                    Person searchedPerson = SearchPerson(personList, personName);
+                    Console.WriteLine(searchedPerson.ToString(), searchedPerson.TravelEntryList.ToString());
+                    Console.WriteLine();
                 }
 
-                else if (option == 3)
+                /*else if (option == 3)
                 {
 
                 }
@@ -92,7 +92,7 @@ namespace PRG2_T06_Team9
                 else if (option == 13)
                 {
 
-                }
+                }*/
                
                 else if (option == 0)
                 {
@@ -103,15 +103,15 @@ namespace PRG2_T06_Team9
             }
         }
 
+        /*----------------GENERAL FUNCTIONS-------------------*/
+
         static int DisplayMenu()
         {
             Console.WriteLine("---------------- M E N U--------------------");
-            Console.WriteLine(" ");
+            Console.WriteLine();
             Console.WriteLine("-----------------GENERAL--------------------");
-            Console.WriteLine("[1] Load Person and Business Location Data");
-            Console.WriteLine("[2] Load SHN Facility Data");
-            Console.WriteLine("[3] List All Visitors");
-            Console.WriteLine("[4] List Person Details");
+            Console.WriteLine("[1] List All Visitors");
+            Console.WriteLine("[2] List Person Details");
             Console.WriteLine(" ");
             Console.WriteLine("--------SafeEntry/TraceTogether Token-------");
             Console.WriteLine("[5] Assign/Replace TraceTogether Token");
@@ -119,7 +119,7 @@ namespace PRG2_T06_Team9
             Console.WriteLine("[7] Edit Business Location Capacity");
             Console.WriteLine("[8] SafeEntry Check-in");
             Console.WriteLine("[9] SafeEntry Check-out");
-            Console.WriteLine(" ");
+            Console.WriteLine();
             Console.WriteLine("-----------------TravelEntry----------------");
             Console.WriteLine("[10] List All SHN Facilities");
             Console.WriteLine("[11] Create Visitor");
@@ -128,25 +128,8 @@ namespace PRG2_T06_Team9
             Console.WriteLine("---------------------------------------------");
             Console.Write("Enter your option: ");
             int option = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
             return option;
-        }
-
-        static void GetFacilityDetails(List<SHNFacility> facilityList)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://covidmonitoringapiprg2.azurewebsites.net");
-                Task<HttpResponseMessage> responseTask = client.GetAsync("/facility");
-                responseTask.Wait();
-                HttpResponseMessage result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    Task<string> readTask = result.Content.ReadAsStringAsync();
-                    readTask.Wait();
-                    string data = readTask.Result;
-                    facilityList = JsonConvert.DeserializeObject<List<SHNFacility>>(data);
-                }
-            }
         }
 
         static void InitPersonList(List<Person> personList, List<SHNFacility> facilityList)
@@ -230,9 +213,59 @@ namespace PRG2_T06_Team9
                             travelEntryObj.ShnStay = facility;
                         }
                     }
+
+                    //Add the Visitor Object to the Person List
+                    personList.Add(visitorObj);
                 }
             }
         }
+
+        static void DisplayAllVisitors(List<Person> pList)
+        {
+            Console.WriteLine("-----------------Visitors-----------------");
+            Console.WriteLine();
+            foreach (Person p in pList)
+            {
+                if (p is Visitor)
+                {
+                    Visitor v = (Visitor)p;
+                    Console.WriteLine(v.ToString());
+                }
+            }
+        }
+
+        static Person SearchPerson(List<Person> pList, string p)
+        {
+            for (int i = 0; i < pList.Count; i++)
+            {
+                if (p == pList[i].Name)
+                {
+                    return pList[i];
+                }
+            }
+            return null;
+        }
+
+
+        /*----------------TRAVEL ENTRY FUNCTIONS-------------------*/
+        static void GetFacilityDetails(List<SHNFacility> facilityList)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://covidmonitoringapiprg2.azurewebsites.net");
+                Task<HttpResponseMessage> responseTask = client.GetAsync("/facility");
+                responseTask.Wait();
+                HttpResponseMessage result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    Task<string> readTask = result.Content.ReadAsStringAsync();
+                    readTask.Wait();
+                    string data = readTask.Result;
+                    facilityList = JsonConvert.DeserializeObject<List<SHNFacility>>(data);
+                }
+            }
+        }
+
 
         static void CalSHNCharges(List<Person> personList)
         {
@@ -261,5 +294,7 @@ namespace PRG2_T06_Team9
             }
             return null;
         }
+
+        /*----------------SAFE ENTRY FUNCTIONS-------------------*/
     }
 }

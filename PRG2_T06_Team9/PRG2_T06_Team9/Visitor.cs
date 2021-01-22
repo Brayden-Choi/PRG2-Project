@@ -42,7 +42,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return PassportNo + Nationality;
+            return base.ToString() + string.Format("Passport No: {0,-17}Nationality: {1,-15}", PassportNo, Nationality);
         }
     }
 }
