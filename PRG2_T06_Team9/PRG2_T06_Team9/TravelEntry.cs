@@ -56,7 +56,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return string.Format("{0,-10}{1,-10}{2,-10}", LastCountryOfEmbarkation, EntryMode, EntryDate);
+            return string.Format("Last Country of Embarkation: {0,-15}Entry Mode: {1,-10}Entry Date: {2,-10}", LastCountryOfEmbarkation, EntryMode, EntryDate);
         }
     }
 }

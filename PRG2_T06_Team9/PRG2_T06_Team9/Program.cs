@@ -36,7 +36,15 @@ namespace PRG2_T06_Team9
                     Console.Write("Enter your name: ");
                     string personName = Console.ReadLine();
                     Person searchedPerson = SearchPerson(personList, personName);
-                    Console.WriteLine(searchedPerson.ToString(), searchedPerson.TravelEntryList.ToString());
+                    Console.WriteLine(searchedPerson.ToString());
+                    for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                    {
+                        Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
+                    }
+                    for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
+                    {
+                        Console.WriteLine(searchedPerson.SafeEntryList[i].ToString());
+                    }
                     Console.WriteLine();
                 }
 
@@ -99,7 +107,6 @@ namespace PRG2_T06_Team9
                     Console.WriteLine("Goodbye! Stay Safe!");
                     break;
                 }
-
             }
         }
 
