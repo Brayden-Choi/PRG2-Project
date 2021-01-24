@@ -121,19 +121,23 @@ namespace PRG2_T06_Team9
            
                 else if (option == 8)
                 {
-                    Console.WriteLine("{0,-18}{1,-18}{2,-18}{3,-18}{4,-18}", "Facility Name", "Facility Capacity", "Dist. From Air Checkpoint", "Dist. From Sea Checkpoint", "Dist. From Land Checkpoint");
+                    Console.WriteLine("{0,-25}{1,-25}{2,-30}{3,-30}{4,-30}", "Facility Name", "Facility Capacity", "Dist. From Air Checkpoint", "Dist. From Sea Checkpoint", "Dist. From Land Checkpoint");
                     for (int i = 0; i < facilityList.Count; i++)
                     {
-                        Console.WriteLine("{0,-18}{1,-18}{2,-18}{3,-18}{4,-18}", facilityList[i].FacilityName, facilityList[i].FacilityCapacity, facilityList[i].DistFromAirCheckpoint, facilityList[i].DistFromSeaCheckpoint, facilityList[i].DistFromLandCheckpoint);
+                        Console.WriteLine("{0,-25}{1,-25}{2,-30}{3,-30}{4,-30}", facilityList[i].FacilityName, facilityList[i].FacilityCapacity, facilityList[i].DistFromAirCheckpoint, facilityList[i].DistFromSeaCheckpoint, facilityList[i].DistFromLandCheckpoint);
                     }
+                    Console.WriteLine();
                 }
            
-                /*else if (option == 9)
+                else if (option == 9)
                 {
-
+                    Person newVisitor = CreateVisitor();
+                    personList.Add(newVisitor);
+                    Console.WriteLine("Visitor has been added!");
+                    Console.WriteLine();
                 }
             
-                else if (option == 10)
+                /*else if (option == 10)
                 {
 
                 }
@@ -326,6 +330,18 @@ namespace PRG2_T06_Team9
             return facilityList;
         }
 
+        static SHNFacility SearchFacility(List<SHNFacility> fList, string f)
+        {
+            for (int i = 0; i < fList.Count; i++)
+            {
+                if (f == fList[i].FacilityName)
+                {
+                    return fList[i];
+                }
+            }
+            return null;
+        }
+
 
         static void CalSHNCharges(List<Person> personList)
         {
@@ -343,18 +359,24 @@ namespace PRG2_T06_Team9
             }
         }
 
-        static SHNFacility SearchFacility(List<SHNFacility> fList, string f)
+        public static Person CreateVisitor()
         {
-            for (int i = 0; i < fList.Count; i++)
-            {
-                if (f == fList[i].FacilityName)
-                {
-                    return fList[i];
-                }
-            }
-            return null;
+            Console.Write("Enter your name: ");
+            string visitorName = Console.ReadLine();
+
+            Console.Write("Enter your passport number: ");
+            string passsportNo = Console.ReadLine();
+
+            Console.Write("Enter your nationality: ");
+            string nationality = Console.ReadLine();
+
+            Person newVisitor = new Visitor(visitorName, passsportNo, nationality);
+            return newVisitor;
         }
 
+
         /*----------------SAFE ENTRY FUNCTIONS-------------------*/
+
+
     }
 }
