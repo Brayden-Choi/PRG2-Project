@@ -22,12 +22,11 @@ namespace PRG2_T06_Team9
 
         }
 
-        public BusinessLocation(string businessName, string branchCode, int maximumCapacity, int visitorsNow)
+        public BusinessLocation(string businessName, string branchCode, int maximumCapacity)
         {
             BusinessName = businessName;
             BranchCode = branchCode;
             MaximumCapacity = maximumCapacity;
-            VisitorsNow = visitorsNow;
         }
 
         public bool IsFull()
@@ -44,7 +43,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return base.ToString();
+            return string.Format(BusinessName + "\t" + BranchCode + "\t" + MaximumCapacity);
         }
     }
 }

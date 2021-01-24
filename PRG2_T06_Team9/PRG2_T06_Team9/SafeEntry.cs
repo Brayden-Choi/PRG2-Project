@@ -21,10 +21,9 @@ namespace PRG2_T06_Team9
 
         }
 
-        public SafeEntry(DateTime checkin, DateTime checkout, BusinessLocation location)
+        public SafeEntry(DateTime checkin, BusinessLocation location)
         {
             Checkin = checkin;
-            Checkout = checkout;
             Location = location;
         }
 
