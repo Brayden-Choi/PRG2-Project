@@ -19,6 +19,10 @@ namespace PRG2_T06_Team9
         {
             List<SHNFacility> fList = new List<SHNFacility>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
+            for (int i = 0; i < facilityList.Count; i++)
+            {
+                facilityList[i].FacilityVacancy = facilityList[i].FacilityCapacity;
+            }
             List<Person> personList = new List<Person>();
             InitPersonList(personList, facilityList);
 
@@ -76,7 +80,7 @@ namespace PRG2_T06_Team9
                         if (searchedPerson is Resident)
                         {
                             Console.WriteLine("-----------------Token Details-----------------");
-                            Resident r = (Resident) searchedPerson;
+                            Resident r = (Resident)searchedPerson;
                             if (r.Token.SerialNo == "")
                             {
                                 Console.WriteLine("There is no current record of your TraceTogether Token found.");
@@ -118,17 +122,17 @@ namespace PRG2_T06_Team9
                 {
 
                 }*/
-           
+
                 else if (option == 8)
                 {
-                    Console.WriteLine("{0,-25}{1,-25}{2,-30}{3,-30}{4,-30}", "Facility Name", "Facility Capacity", "Dist. From Air Checkpoint", "Dist. From Sea Checkpoint", "Dist. From Land Checkpoint");
+                    Console.WriteLine("{0,-25}{1,-25}{2,-25}{3,-30}{4,-30}{5,-30}", "Facility Name", "Facility Capacity", "Facility Vacancy", "Dist. From Air Checkpoint", "Dist. From Sea Checkpoint", "Dist. From Land Checkpoint");
                     for (int i = 0; i < facilityList.Count; i++)
                     {
-                        Console.WriteLine("{0,-25}{1,-25}{2,-30}{3,-30}{4,-30}", facilityList[i].FacilityName, facilityList[i].FacilityCapacity, facilityList[i].DistFromAirCheckpoint, facilityList[i].DistFromSeaCheckpoint, facilityList[i].DistFromLandCheckpoint);
+                        Console.WriteLine(facilityList[i].ToString());
                     }
                     Console.WriteLine();
                 }
-           
+
                 else if (option == 9)
                 {
                     Person newVisitor = CreateVisitor();
@@ -136,27 +140,47 @@ namespace PRG2_T06_Team9
                     Console.WriteLine("Visitor has been added!");
                     Console.WriteLine();
                 }
-            
-                /*else if (option == 10)
-                {
 
-                }
-            
-                else if (option == 11)
+                else if (option == 10)
                 {
+                    Console.Write("Enter your name: ");
+                    string personName = Console.ReadLine();
+                    Person searchedPerson = SearchPerson(personList, personName);
+                    if (searchedPerson != null)
+                    {
+                        TravelEntry newTravelEntry = CreateTravelEntry();
+                        for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                        {
+                            searchedPerson.TravelEntryList[i].CalculateSHNDuration();
+                        }
 
-                }
-               
-                else if (option == 12)
-                {
+                        Console.Write("Would you like to add a SHN Facility? (Y/N): ");
+                        string reply = Console.ReadLine();
+                        if (reply == "Y")
+                        {
+                            string facilityName = assignFacility();
+                            Console.WriteLine(facilityName);
+                            SHNFacility facility = SearchFacility(facilityList, facilityName);
+                            for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                            {
+                                searchedPerson.TravelEntryList[i].AssignSHNFacility(facility);
+                                searchedPerson.TravelEntryList[i].ShnStay.FacilityVacancy -= 1;
+                            }
+                        }
 
+                        searchedPerson.AddTravelEntry(newTravelEntry);
+                    }
+                    else
+                    {
+                        Console.WriteLine("This person does not exist in our database. Please try another name.");
+                    }
+                    Console.WriteLine();
                 }
-                
-                else if (option == 13)
+                /*else if (option == 11)
                 {
 
                 }*/
-               
+
                 else if (option == 0)
                 {
                     Console.WriteLine("Goodbye! Stay Safe!");
@@ -169,20 +193,20 @@ namespace PRG2_T06_Team9
 
         static int DisplayMenu()
         {
-            Console.WriteLine("|---------------- COVID-19 MONITORING SYSTEM--------------------|");
+            Console.WriteLine("|---------------- COVID-19 MONITORING SYSTEM --------------------|");
             Console.WriteLine();
-            Console.WriteLine("-----------------GENERAL--------------------");
+            Console.WriteLine("----------------- General --------------------");
             Console.WriteLine("[1] List All Visitors");
             Console.WriteLine("[2] List Person Details");
             Console.WriteLine(" ");
-            Console.WriteLine("--------SafeEntry/TraceTogether Token-------");
+            Console.WriteLine("-------- SafeEntry/TraceTogether Token -------");
             Console.WriteLine("[3] Assign/Replace TraceTogether Token");
             Console.WriteLine("[4] List All Business Locations");
             Console.WriteLine("[5] Edit Business Location Capacity");
             Console.WriteLine("[6] SafeEntry Check-in");
             Console.WriteLine("[7] SafeEntry Check-out");
             Console.WriteLine();
-            Console.WriteLine("-----------------TravelEntry----------------");
+            Console.WriteLine("----------------- TravelEntry ----------------");
             Console.WriteLine("[8] List All SHN Facilities");
             Console.WriteLine("[9] Create Visitor");
             Console.WriteLine("[10] Create TravelEntry Record");
@@ -239,7 +263,8 @@ namespace PRG2_T06_Team9
                         {
                             string facilityName = person[14];
                             SHNFacility facility = SearchFacility(facilityList, facilityName);
-                            travelEntryObj.ShnStay = facility;
+                            travelEntryObj.AssignSHNFacility(facility);
+                            travelEntryObj.ShnStay.FacilityVacancy -= 1;
                         }
                     }
 
@@ -273,7 +298,8 @@ namespace PRG2_T06_Team9
                         {
                             string facilityName = person[14];
                             SHNFacility facility = SearchFacility(facilityList, facilityName);
-                            travelEntryObj.ShnStay = facility;
+                            travelEntryObj.AssignSHNFacility(facility);
+                            travelEntryObj.ShnStay.FacilityVacancy -= 1;
                         }
                     }
 
@@ -359,7 +385,7 @@ namespace PRG2_T06_Team9
             }
         }
 
-        public static Person CreateVisitor()
+        static Person CreateVisitor()
         {
             Console.Write("Enter your name: ");
             string visitorName = Console.ReadLine();
@@ -374,7 +400,51 @@ namespace PRG2_T06_Team9
             return newVisitor;
         }
 
+        static TravelEntry CreateTravelEntry()
+        {
+            Console.Write("Enter your last country of embarkation: ");
+            string lastCountry = Console.ReadLine();
+            Console.Write("Enter your entry mode: ");
+            string entryMode = Console.ReadLine();
+            Console.Write("Enter your entry date(dd/mm/yyyy hh:mm:ss): ");
+            DateTime entryDate = Convert.ToDateTime(Console.ReadLine());
 
+            TravelEntry newTravelEntry = new TravelEntry(lastCountry, entryMode, entryDate);
+            return newTravelEntry;
+        }
+
+
+        static string assignFacility()
+        {
+            Console.WriteLine("------------ Facilities ---------------");
+            Console.WriteLine("[1] A'Resort");
+            Console.WriteLine("[2] Yozel");
+            Console.WriteLine("[3] Mandarin Orchid");
+            Console.WriteLine("[4] Small Hostel");
+            
+            while (true)
+            {
+                Console.Write("Select a facility: ");
+                int option = Convert.ToInt32(Console.ReadLine());
+
+                if (option == 1)
+                {
+                    return "A'Resort";
+                }
+                else if (option == 2)
+                {
+                    return "Yozel";
+                }
+                else if (option == 3)
+                {
+                    return "Mandarin Orchid";
+                }
+                else if (option == 4)
+                {
+                    return "Small Hostel";
+                }
+            }
+        }
         /*----------------SAFE ENTRY FUNCTIONS-------------------*/
 
 

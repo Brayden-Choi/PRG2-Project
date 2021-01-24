@@ -81,7 +81,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return base.ToString();
+            return string.Format("{0,-25}{1,-25}{2,-25}{3,-30}{4,-30}{5,-30}", FacilityName, FacilityCapacity, FacilityVacancy, DistFromAirCheckpoint, DistFromSeaCheckpoint, DistFromLandCheckpoint);
         }
     }
 }
