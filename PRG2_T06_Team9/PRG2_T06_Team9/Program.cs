@@ -36,14 +36,28 @@ namespace PRG2_T06_Team9
                     Console.Write("Enter your name: ");
                     string personName = Console.ReadLine();
                     Person searchedPerson = SearchPerson(personList, personName);
+                    Console.WriteLine();
+                    Console.WriteLine("-------------------Person Details---------------------");
                     Console.WriteLine(searchedPerson.ToString());
+                    Console.WriteLine();
+                    Console.WriteLine("-----------------Travel Entry Details-----------------");
                     for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
                     {
                         Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
                     }
+                    Console.WriteLine();
+                    Console.WriteLine("-----------------Safe Entry Details-----------------");
                     for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
                     {
                         Console.WriteLine(searchedPerson.SafeEntryList[i].ToString());
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    if (searchedPerson is Resident)
+                    {
+                        Console.WriteLine("-----------------Token Details-----------------");
+                        Resident r = (Resident)searchedPerson;
+                        Console.WriteLine("Serial No: {0,-15}Expiry Date: {1,-30}Collection Location: {2,-15}", r.Token.SerialNo, r.Token.ExpiryDate, r.Token.CollectionLocation);
                     }
                     Console.WriteLine();
                 }
