@@ -75,19 +75,12 @@ namespace PRG2_T06_Team9
                                 Console.WriteLine("There is no current record of your Safe Entry Details found.");
                             }
                         }
-
                         Console.WriteLine();
-                        Console.WriteLine();
+                        Console.WriteLine("-----------------Token Details-----------------");
                         if (searchedPerson is Resident)
                         {
-                            Console.WriteLine("-----------------Token Details-----------------");
-<<<<<<< HEAD
-                            Resident r = (Resident) searchedPerson;
-                            if (r.Token.SerialNo is null)
-=======
                             Resident r = (Resident)searchedPerson;
                             if (r.Token.SerialNo == "")
->>>>>>> 43ab1981ebdc30f239abe2d5c6cfcfb3b5f63311
                             {
                                 Console.WriteLine("There is no current record of your TraceTogether Token found.");
                             }
@@ -161,7 +154,6 @@ namespace PRG2_T06_Team9
 
                 else if (option == 7)
                 {
-<<<<<<< HEAD
                     while (true)
                     {
                         Console.Write("Please enter your name: ");
@@ -191,12 +183,7 @@ namespace PRG2_T06_Team9
                         }
                     }
                 }
-                
-=======
 
-                }*/
-
->>>>>>> 43ab1981ebdc30f239abe2d5c6cfcfb3b5f63311
                 else if (option == 8)
                 {
                     Console.WriteLine("{0,-25}{1,-25}{2,-25}{3,-30}{4,-30}{5,-30}", "Facility Name", "Facility Capacity", "Facility Vacancy", "Dist. From Air Checkpoint", "Dist. From Sea Checkpoint", "Dist. From Land Checkpoint");
@@ -520,7 +507,7 @@ namespace PRG2_T06_Team9
             }
         }
         /*----------------SAFE ENTRY FUNCTIONS-------------------*/
-<<<<<<< HEAD
+
         static void ListBL(List<BusinessLocation> bList)
         {
             string[] businessLines = File.ReadAllLines("BusinessLocation.csv");
@@ -543,9 +530,5 @@ namespace PRG2_T06_Team9
             }
             return null;
         }
-=======
-
-
->>>>>>> 43ab1981ebdc30f239abe2d5c6cfcfb3b5f63311
     }
 }
