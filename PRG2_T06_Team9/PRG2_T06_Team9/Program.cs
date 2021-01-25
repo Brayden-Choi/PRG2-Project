@@ -18,6 +18,7 @@ namespace PRG2_T06_Team9
         static void Main(string[] args)
         {
             List<SHNFacility> fList = new List<SHNFacility>();
+            List<BusinessLocation> bList = new List<BusinessLocation>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
             for (int i = 0; i < facilityList.Count; i++)
             {
@@ -74,12 +75,10 @@ namespace PRG2_T06_Team9
                                 Console.WriteLine("There is no current record of your Safe Entry Details found.");
                             }
                         }
-
                         Console.WriteLine();
-                        Console.WriteLine();
+                        Console.WriteLine("-----------------Token Details-----------------");
                         if (searchedPerson is Resident)
                         {
-                            Console.WriteLine("-----------------Token Details-----------------");
                             Resident r = (Resident)searchedPerson;
                             if (r.Token.SerialNo == "")
                             {
@@ -91,7 +90,6 @@ namespace PRG2_T06_Team9
                             }
                         }
                         Console.WriteLine();
-                        break;
                     }
                     else
                     {
@@ -103,25 +101,88 @@ namespace PRG2_T06_Team9
                 {
 
                 }
-           
+                */
                 else if (option == 4)
                 {
-
+                    ListBL(bList);
+                    Console.WriteLine("Business Name         Business Location         Maximum Capacity");
+                    for (int i = 0; i < bList.Count; i++)
+                    {
+                        Console.WriteLine(bList[i].ToString());
+                    }
                 }
-
+                /*
                 else if (option == 5)
                 {
 
                 }
-
+                */
                 else if (option == 6)
                 {
-
+                    while (true)
+                    {
+                        Console.Write("Please enter your name: ");
+                        string personName = Console.ReadLine();
+                        Person searchedPerson = SearchPerson(personList, personName);
+                        if (searchedPerson != null)
+                        {
+                            ListBL(bList);
+                            Console.Write("Select a business location to check into.");
+                            string location = Console.ReadLine();
+                            BusinessLocation searchedLocation = SearchBusiness(bList, location);
+                            if (searchedLocation != null)
+                            {
+                                if (searchedLocation.IsFull() == false)
+                                {
+                                    SafeEntry SE = new SafeEntry(DateTime.Now, searchedLocation);
+                                    searchedLocation.VisitorsNow += 1;
+                                    searchedPerson.AddSafeEntry(SE);
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("This business location is full. Please select another one.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid business location entered. Please try again.");
+                            }
+                        }
+                    }
                 }
+
                 else if (option == 7)
                 {
-
-                }*/
+                    while (true)
+                    {
+                        Console.Write("Please enter your name: ");
+                        string personName = Console.ReadLine();
+                        Person searchedPerson = SearchPerson(personList, personName);
+                        if (searchedPerson != null)
+                        {
+                            for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
+                            {
+                                DateTime empty = new DateTime(0001, 1, 1, 12, 00, 00);
+                                if (searchedPerson.SafeEntryList[i].Checkout == empty)
+                                {
+                                    Console.WriteLine("Record {0}: {1}", i++, searchedPerson.SafeEntryList[i]);
+                                }
+                                Console.Write("Please select the record to check out.");
+                                int record = Convert.ToInt32(Console.ReadLine());
+                                if (record == i)
+                                {
+                                    searchedPerson.SafeEntryList[i].Checkout = DateTime.Now;
+                                }
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("This person does not exist in our database. Please try again.");
+                        }
+                    }
+                }
 
                 else if (option == 8)
                 {
@@ -474,6 +535,27 @@ namespace PRG2_T06_Team9
         }
         /*----------------SAFE ENTRY FUNCTIONS-------------------*/
 
+        static void ListBL(List<BusinessLocation> bList)
+        {
+            string[] businessLines = File.ReadAllLines("BusinessLocation.csv");
+            for (int i = 1; i < businessLines.Length; i++)
+            {
+                string[] location = businessLines[i].Split(',');
+                BusinessLocation bL = new BusinessLocation(location[0], location[1], Convert.ToInt32(location[2]));
+                bList.Add(bL);
+            }
+        }
 
+        static BusinessLocation SearchBusiness(List<BusinessLocation> bList, string b)
+        {
+            for (int i = 0; i < bList.Count; i++)
+            {
+                if (b == bList[i].BusinessName)
+                {
+                    return bList[i];
+                }
+            }
+            return null;
+        }
     }
 }
