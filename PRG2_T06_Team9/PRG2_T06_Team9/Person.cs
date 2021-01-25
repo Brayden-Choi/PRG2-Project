@@ -33,7 +33,7 @@ namespace PRG2_T06_Team9
             TravelEntryList.Add(travelDetails);
         }
 
-        public void AddTSafeEntry(SafeEntry safeEntryDetails)
+        public void AddSafeEntry(SafeEntry safeEntryDetails)
         {
             SafeEntryList.Add(safeEntryDetails);
         }

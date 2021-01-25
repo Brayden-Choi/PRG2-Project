@@ -154,28 +154,55 @@ namespace PRG2_T06_Team9
                             searchedPerson.TravelEntryList[i].CalculateSHNDuration();
                         }
 
-                        Console.Write("Would you like to add a SHN Facility? (Y/N): ");
-                        string reply = Console.ReadLine();
-                        if (reply == "Y")
+                        while (true)
                         {
-                            string facilityName = assignFacility();
-                            Console.WriteLine(facilityName);
-                            SHNFacility facility = SearchFacility(facilityList, facilityName);
-                            for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                            Console.Write("Would you like to add a SHN Facility? (Y/N): ");
+                            string reply = Console.ReadLine();
+                            if (reply == "Y")
                             {
-                                searchedPerson.TravelEntryList[i].AssignSHNFacility(facility);
-                                searchedPerson.TravelEntryList[i].ShnStay.FacilityVacancy -= 1;
+                                while (true)
+                                {
+                                    string facilityName = assignFacility();
+                                    Console.WriteLine(facilityName);
+                                    SHNFacility facility = SearchFacility(facilityList, facilityName);
+                                    for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                                    {
+                                        bool isAvail = searchedPerson.TravelEntryList[i].ShnStay.IsAvailable();
+                                        if (isAvail)
+                                        {
+                                            searchedPerson.TravelEntryList[i].AssignSHNFacility(facility);
+                                            searchedPerson.TravelEntryList[i].ShnStay.FacilityVacancy -= 1;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Facility has no vacant slots. Please choose another one.");
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            else if (reply == "N")
+                            {
+                                Console.WriteLine("Travel Entry Added.");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid option. Please try again.");
                             }
                         }
+                        
 
                         searchedPerson.AddTravelEntry(newTravelEntry);
                     }
                     else
                     {
-                        Console.WriteLine("This person does not exist in our database. Please try another name.");
+                        Console.WriteLine("This person does not exist in our database. Please try another name.");              
                     }
                     Console.WriteLine();
                 }
+
                 /*else if (option == 11)
                 {
 
