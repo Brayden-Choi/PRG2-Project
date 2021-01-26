@@ -19,6 +19,7 @@ namespace PRG2_T06_Team9
         {
             List<SHNFacility> fList = new List<SHNFacility>();
             List<BusinessLocation> bList = new List<BusinessLocation>();
+            List<string> tList = new List<string>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
             for (int i = 0; i < facilityList.Count; i++)
             {
@@ -26,7 +27,8 @@ namespace PRG2_T06_Team9
             }
             List<Person> personList = new List<Person>();
             InitPersonList(personList, facilityList);
-
+            ListBL(bList);
+            InitTlist(tList);
 
             while (true)
             {
@@ -97,26 +99,95 @@ namespace PRG2_T06_Team9
                     }
                 }
 
-                /*else if (option == 3)
-                {
+                else if (option == 3)
+                {   
+                    Console.Write("Please enter your name: ");
+                    string personName = Console.ReadLine();
+                    Person searchedPerson = SearchPerson(personList, personName);
+                    if (searchedPerson != null)
+                    {
+                        if (searchedPerson is Resident)
+                        {
+                            Resident r = (Resident) searchedPerson;
+                            if (r.Token == null)
+                            {
+                                Console.Write("Please enter a new Serial Number (e.g: TXXXX): ");
+                                string sn = Console.ReadLine();
+                                for (int i = 0; i < tList.Count; i++)
+                                {
+                                    Console.WriteLine(tList[i]);
+                                }
+                                Console.Write("Please select a collection location: ");
+                                string location = Console.ReadLine();
+                                DateTime ed = DateTime.Now.AddMonths(6);
+                                TraceTogetherToken token = new TraceTogetherToken(sn, location, ed);
+                                r.Token = token;
+                            }
 
+                            else 
+                            {
+                                DateTime edDateTime = r.Token.ExpiryDate;
+                                DateTime botspan = edDateTime.AddMonths(-1);
+                                if (botspan <= DateTime.Now || DateTime.Now >= edDateTime)
+                                {
+                                    Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
+                                    for (int i = 0; i < tList.Count; i++)
+                                    {
+                                        Console.WriteLine(tList[i]);
+                                    }
+                                    Console.Write("Please select a collection location: ");
+                                    string location = Console.ReadLine();
+                                    DateTime ed = DateTime.Now.AddMonths(6);
+                                    TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
+                                    r.Token = token;
+                                }
+
+                                else if (edDateTime > DateTime.Now)
+                                {
+                                    Console.WriteLine("Your token has expired already. Please replace it now.");
+                                    for (int i = 0; i < tList.Count; i++)
+                                    {
+                                        Console.WriteLine(tList[i]);
+                                    }
+                                    Console.Write("Please select a collection location: ");
+                                    string location = Console.ReadLine();
+                                    DateTime ed = DateTime.Now.AddMonths(6);
+                                    TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
+                                    r.Token = token;
+                                }
+
+                                else if (botspan <= edDateTime)
+                                {
+                                    Console.WriteLine("Your token has not expired yet and is not up for replacement.");
+                                }
+                            }
+                        }
+
+                    }
                 }
-                */
+                
                 else if (option == 4)
                 {
-                    ListBL(bList);
                     Console.WriteLine("Business Name         Business Location         Maximum Capacity");
                     for (int i = 0; i < bList.Count; i++)
                     {
                         Console.WriteLine(bList[i].ToString());
                     }
                 }
-                /*
+                
                 else if (option == 5)
                 {
-
+                    Console.Write("Please enter the name of the business location: ");
+                    string location = Console.ReadLine();
+                    BusinessLocation searchedLocation = SearchBusiness(bList, location);
+                    if (searchedLocation != null)
+                    {
+                        Console.Write("Please edit the maximum capacity: ");
+                        int cap = Convert.ToInt32(Console.ReadLine());
+                        searchedLocation.MaximumCapacity = cap;
+                    }
                 }
-                */
+
                 else if (option == 6)
                 {
                     while (true)
@@ -127,7 +198,7 @@ namespace PRG2_T06_Team9
                         if (searchedPerson != null)
                         {
                             ListBL(bList);
-                            Console.Write("Select a business location to check into.");
+                            Console.Write("Select a business location to check into: ");
                             string location = Console.ReadLine();
                             BusinessLocation searchedLocation = SearchBusiness(bList, location);
                             if (searchedLocation != null)
@@ -163,16 +234,24 @@ namespace PRG2_T06_Team9
                         {
                             for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
                             {
-                                DateTime empty = new DateTime(0001, 1, 1, 12, 00, 00);
+                                DateTime empty = new DateTime(0001, 1, 1, 00, 00, 00);
                                 if (searchedPerson.SafeEntryList[i].Checkout == empty)
                                 {
-                                    Console.WriteLine("Record {0}: {1}", i++, searchedPerson.SafeEntryList[i]);
+                                    for (int x = 0; x < searchedPerson.SafeEntryList.Count; x++)
+                                    {
+                                        Console.WriteLine("Record {0}: {1}", x, searchedPerson.SafeEntryList[x].ToString());
+                                    }
+                                    Console.Write("Please select the record to check out from: ");
+                                    int record = Convert.ToInt32(Console.ReadLine());
+                                    if (record == i)
+                                    {
+                                        searchedPerson.SafeEntryList[i].Checkout = DateTime.Now;
+                                    }
+
                                 }
-                                Console.Write("Please select the record to check out.");
-                                int record = Convert.ToInt32(Console.ReadLine());
-                                if (record == i)
+                                else
                                 {
-                                    searchedPerson.SafeEntryList[i].Checkout = DateTime.Now;
+                                    Console.WriteLine("You have checked out from all the SafeEntry Records.");
                                 }
                             }
                             break;
@@ -544,6 +623,18 @@ namespace PRG2_T06_Team9
                 BusinessLocation bL = new BusinessLocation(location[0], location[1], Convert.ToInt32(location[2]));
                 bList.Add(bL);
             }
+        }
+
+        static void InitTlist(List<String> tList)
+        {
+            tList.Add("Canberra CC");
+            tList.Add("Bukit CC");
+            tList.Add("Clementi CC"); 
+            tList.Add("Eunos CC");
+            tList.Add("Dover CC");
+            tList.Add("Raffles CC");
+            tList.Add("Woodlands CC");
+            tList.Add("Yishun CC");
         }
 
         static BusinessLocation SearchBusiness(List<BusinessLocation> bList, string b)
