@@ -266,6 +266,10 @@ namespace PRG2_T06_Team9
                     Person searchedPerson = SearchPerson(personList, personName);
                     if (searchedPerson != null)
                     {
+                        for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                        {
+                            bool isPaid = searchedPerson.TravelEntryList[i].IsPaid;
+                        }
                     }
                     else
                     {
