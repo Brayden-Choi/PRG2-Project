@@ -4,9 +4,7 @@
 // Module Group : T06
 //============================================================
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PRG2_T06_Team9
 {
@@ -45,7 +43,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return string.Format("Name: {0,-14}", Name); 
+            return string.Format("Name: {0,-14}", Name);
         }
     }
 }
