@@ -7,6 +7,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace PRG2_T06_Team9
             List<SHNFacility> fList = new List<SHNFacility>();
             List<BusinessLocation> bList = new List<BusinessLocation>();
             List<string> tList = new List<string>();
+            List<SafeEntry> uncheckedList = new List<SafeEntry>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
             for (int i = 0; i < facilityList.Count; i++)
             {
@@ -53,13 +55,13 @@ namespace PRG2_T06_Team9
                         Console.WriteLine("-----------------Travel Entry Details-----------------");
                         for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
                         {
-                            if (searchedPerson.TravelEntryList[i].ToString() != "")
+                            if (searchedPerson.TravelEntryList is null)
                             {
-                                Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
+                                Console.WriteLine("There is no current record of your Travel Entry Details found.");
                             }
                             else
                             {
-                                Console.WriteLine("There is no current record of your Travel Entry Details found.");
+                                Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
                             }
                         }
 
@@ -67,14 +69,14 @@ namespace PRG2_T06_Team9
                         Console.WriteLine("-----------------Safe Entry Details-----------------");
                         for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
                         {
-                            if (searchedPerson.SafeEntryList[i].ToString() != "")
+                            if (searchedPerson.SafeEntryList is null)
                             {
-                                Console.WriteLine(searchedPerson.SafeEntryList[i].ToString());
+                                Console.WriteLine("There is no current record of your Safe Entry Details found.");
                             }
 
                             else
                             {
-                                Console.WriteLine("There is no current record of your Safe Entry Details found.");
+                                Console.WriteLine(searchedPerson.SafeEntryList[i].ToString());
                             }
                         }
                         Console.WriteLine();
@@ -82,7 +84,7 @@ namespace PRG2_T06_Team9
                         if (searchedPerson is Resident)
                         {
                             Resident r = (Resident)searchedPerson;
-                            if (r.Token.SerialNo == "")
+                            if (r.Token is null)
                             {
                                 Console.WriteLine("There is no current record of your TraceTogether Token found.");
                             }
@@ -100,69 +102,109 @@ namespace PRG2_T06_Team9
                 }
 
                 else if (option == 3)
-                {   
-                    Console.Write("Please enter your name: ");
-                    string personName = Console.ReadLine();
-                    Person searchedPerson = SearchPerson(personList, personName);
-                    if (searchedPerson != null)
+                {
+                    while (true)
                     {
-                        if (searchedPerson is Resident)
+                        Console.Write("Please enter your name: ");
+                        string personName = Console.ReadLine();
+                        Person searchedPerson = SearchPerson(personList, personName);
+                        if (searchedPerson != null)
                         {
-                            Resident r = (Resident) searchedPerson;
-                            if (r.Token == null)
+                            if (searchedPerson is Resident)
                             {
-                                Console.Write("Please enter a new Serial Number (e.g: TXXXX): ");
-                                string sn = Console.ReadLine();
-                                for (int i = 0; i < tList.Count; i++)
+                                Resident r = (Resident) searchedPerson;
+                                if (r.Token == null)
                                 {
-                                    Console.WriteLine(tList[i]);
-                                }
-                                Console.Write("Please select a collection location: ");
-                                string location = Console.ReadLine();
-                                DateTime ed = DateTime.Now.AddMonths(6);
-                                TraceTogetherToken token = new TraceTogetherToken(sn, location, ed);
-                                r.Token = token;
-                            }
-
-                            else 
-                            {
-                                DateTime edDateTime = r.Token.ExpiryDate;
-                                DateTime botspan = edDateTime.AddMonths(-1);
-                                if (botspan <= DateTime.Now || DateTime.Now >= edDateTime)
-                                {
-                                    Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
+                                    Console.Write("Please enter a new Serial Number (e.g: TXXXX): ");
+                                    string sn = Console.ReadLine();
                                     for (int i = 0; i < tList.Count; i++)
                                     {
                                         Console.WriteLine(tList[i]);
                                     }
-                                    Console.Write("Please select a collection location: ");
-                                    string location = Console.ReadLine();
-                                    DateTime ed = DateTime.Now.AddMonths(6);
-                                    TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
-                                    r.Token = token;
-                                }
 
-                                else if (edDateTime > DateTime.Now)
-                                {
-                                    Console.WriteLine("Your token has expired already. Please replace it now.");
-                                    for (int i = 0; i < tList.Count; i++)
+                                    while (true)
                                     {
-                                        Console.WriteLine(tList[i]);
+                                        Console.Write("Please select a collection location: ");
+                                        string location = Console.ReadLine();
+                                        String searchedCollection = SearchCollection(tList, location);
+                                        if (searchedCollection != null) 
+                                        {
+                                            DateTime ed = DateTime.Now.AddMonths(6);
+                                            TraceTogetherToken token = new TraceTogetherToken(sn, location, ed);
+                                            r.Token = token;
+                                            Console.WriteLine("You have successfully claimed your TraceTogether Token.");
+                                            break;
+                                        }
+                                        Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                     }
-                                    Console.Write("Please select a collection location: ");
-                                    string location = Console.ReadLine();
-                                    DateTime ed = DateTime.Now.AddMonths(6);
-                                    TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
-                                    r.Token = token;
                                 }
 
-                                else if (botspan <= edDateTime)
+                                else
                                 {
-                                    Console.WriteLine("Your token has not expired yet and is not up for replacement.");
+                                    DateTime edDateTime = r.Token.ExpiryDate;
+                                    DateTime botspan = edDateTime.AddMonths(-1);
+                                    if (botspan >= DateTime.Now || DateTime.Now <= edDateTime)
+                                    {
+                                        Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
+                                        for (int i = 0; i < tList.Count; i++)
+                                        {
+                                            Console.WriteLine(tList[i]);
+                                        }
+
+                                        while (true)
+                                        {
+                                            Console.Write("Please select a collection location: ");
+                                            string location = Console.ReadLine();
+                                            String searchedCollection = SearchCollection(tList, location);
+                                            if (searchedCollection != null)
+                                            {
+                                                DateTime ed = DateTime.Now.AddMonths(6);
+                                                TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
+                                                r.Token = token;
+                                                Console.WriteLine("You have successfully replaced your TraceTogether Token.");
+                                                break;
+                                            }
+                                            Console.WriteLine("Invalid Collection Point entered. Please try again.");
+                                        }
+                                    }
+
+                                    else if (edDateTime < DateTime.Now)
+                                    {
+                                        Console.WriteLine("Your TraceTogether Token has expired already. Please replace it now.");
+                                        for (int i = 0; i < tList.Count; i++)
+                                        {
+                                            Console.WriteLine(tList[i]);
+                                        }
+
+                                        while (true)
+                                        {
+                                            Console.Write("Please select a collection location: ");
+                                            string location = Console.ReadLine();
+                                            String searchedCollection = SearchCollection(tList, location);
+                                            if (searchedCollection != null)
+                                            {
+                                                DateTime ed = DateTime.Now.AddMonths(6);
+                                                TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
+                                                r.Token = token;
+                                                Console.WriteLine("You have successfully replaced your TraceTogether Token.");
+                                                break;
+                                            }
+                                            Console.WriteLine("Invalid Collection Point entered. Please try again.");
+                                        }
+                                    }
+                                    else if (botspan >= edDateTime)
+                                    {
+                                        Console.WriteLine("Your token has not expired yet and is not up for replacement.");
+                                    }
                                 }
                             }
+                            else
+                            {
+                                Console.WriteLine("Sorry, you are not eligible for a TraceTogether Token as you are not a resident.");
+                            }
+                            break;
                         }
-
+                        Console.WriteLine("This person does not exist in our database. Please try another name.");
                     }
                 }
                 
@@ -177,15 +219,22 @@ namespace PRG2_T06_Team9
                 
                 else if (option == 5)
                 {
-                    Console.Write("Please enter the name of the business location: ");
-                    string location = Console.ReadLine();
-                    BusinessLocation searchedLocation = SearchBusiness(bList, location);
-                    if (searchedLocation != null)
-                    {
-                        Console.Write("Please edit the maximum capacity: ");
-                        int cap = Convert.ToInt32(Console.ReadLine());
-                        searchedLocation.MaximumCapacity = cap;
-                    }
+                    while (true)
+                    {   Console.Write("Please enter the name of the business location: ");
+                        string location = Console.ReadLine();
+                        BusinessLocation searchedLocation = SearchBusiness(bList, location);
+                        if (searchedLocation != null)
+                        {
+                            Console.Write("Please edit the maximum capacity: ");
+                            int cap = Convert.ToInt32(Console.ReadLine());
+                            searchedLocation.MaximumCapacity = cap;
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("Business location not found. Please try again.");
+                        }
+                    }   
                 }
 
                 else if (option == 6)
@@ -197,29 +246,35 @@ namespace PRG2_T06_Team9
                         Person searchedPerson = SearchPerson(personList, personName);
                         if (searchedPerson != null)
                         {
-                            ListBL(bList);
-                            Console.Write("Select a business location to check into: ");
-                            string location = Console.ReadLine();
-                            BusinessLocation searchedLocation = SearchBusiness(bList, location);
-                            if (searchedLocation != null)
+                            while (true)
                             {
-                                if (searchedLocation.IsFull() == false)
+                                ListBL(bList);
+                                Console.Write("Select a business location to check into: ");
+                                string location = Console.ReadLine();
+                                BusinessLocation searchedLocation = SearchBusiness(bList, location);
+                                if (searchedLocation != null)
                                 {
-                                    SafeEntry SE = new SafeEntry(DateTime.Now, searchedLocation);
-                                    searchedLocation.VisitorsNow += 1;
-                                    searchedPerson.AddSafeEntry(SE);
+                                    while (true)
+                                    {
+                                        if (searchedLocation.IsFull() == false)
+                                        {
+                                            SafeEntry SE = new SafeEntry(DateTime.Now, searchedLocation);
+                                            searchedLocation.VisitorsNow += 1;
+                                            searchedPerson.AddSafeEntry(SE);
+                                            Console.WriteLine("You have successfully checked into {0}",
+                                                searchedLocation.BusinessName);
+                                            break;
+                                        }
+                                        Console.WriteLine("This business location is full. Please select another one.");
+                                    }
                                     break;
                                 }
-                                else
-                                {
-                                    Console.WriteLine("This business location is full. Please select another one.");
-                                }
-                            }
-                            else
-                            {
                                 Console.WriteLine("Invalid business location entered. Please try again.");
                             }
+                            break;
                         }
+                        Console.WriteLine("This person does not exist in our database. Please try another name.");
+                        
                     }
                 }
 
@@ -237,29 +292,38 @@ namespace PRG2_T06_Team9
                                 DateTime empty = new DateTime(0001, 1, 1, 00, 00, 00);
                                 if (searchedPerson.SafeEntryList[i].Checkout == empty)
                                 {
-                                    for (int x = 0; x < searchedPerson.SafeEntryList.Count; x++)
+                                    uncheckedList.Add(searchedPerson.SafeEntryList[i]);
+                                }
+                            }
+                            if (uncheckedList.Count == 0)
+                            {
+                                Console.WriteLine("You have checked out from all the SafeEntry Records.");
+                            }
+                            else
+                            {
+                                while (true)
+                                {
+                                    for (int x = 0; x < uncheckedList.Count; x++)
                                     {
-                                        Console.WriteLine("Record {0}: {1}", x, searchedPerson.SafeEntryList[x].ToString());
-                                    }
-                                    Console.Write("Please select the record to check out from: ");
-                                    int record = Convert.ToInt32(Console.ReadLine());
-                                    if (record == i)
-                                    {
-                                        searchedPerson.SafeEntryList[i].Checkout = DateTime.Now;
+                                        Console.WriteLine("Record: {0}, {1}", x, uncheckedList[x]);
                                     }
 
-                                }
-                                else
-                                {
-                                    Console.WriteLine("You have checked out from all the SafeEntry Records.");
+                                    Console.Write("Please select the record to check out from: ");
+                                    int record = Convert.ToInt32(Console.ReadLine());
+                                    if (0 < record || record < uncheckedList.Count)
+                                    {
+                                        searchedPerson.SafeEntryList[record].Checkout = DateTime.Now;
+                                        Console.WriteLine("You have checked out from {0}.",
+                                            searchedPerson.SafeEntryList[record].Location.BusinessName);
+                                        uncheckedList.Remove(searchedPerson.SafeEntryList[record]);
+                                        break;
+                                    }
+                                    Console.WriteLine("Record not found. Please try again.");
                                 }
                             }
                             break;
                         }
-                        else
-                        {
-                            Console.WriteLine("This person does not exist in our database. Please try again.");
-                        }
+                        Console.WriteLine("This person does not exist in our database. Please try again.");
                     }
                 }
 
@@ -648,6 +712,18 @@ namespace PRG2_T06_Team9
                 if (b == bList[i].BusinessName)
                 {
                     return bList[i];
+                }
+            }
+            return null;
+        }
+
+        static  String SearchCollection(List<String> tList, string b)
+        {
+            for (int i = 0; i < tList.Count; i++)
+            {
+                if (b == tList[i])
+                {
+                    return tList[i];
                 }
             }
             return null;
