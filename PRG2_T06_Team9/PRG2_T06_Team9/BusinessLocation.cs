@@ -39,7 +39,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return string.Format(BusinessName + "\t" + BranchCode + "\t" + MaximumCapacity + "\t");
+            return string.Format("{0,-30}{1,-20}{2,-20}", BusinessName, BranchCode, MaximumCapacity);
         }
     }
 }

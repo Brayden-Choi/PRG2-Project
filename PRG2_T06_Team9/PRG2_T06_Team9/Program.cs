@@ -168,7 +168,7 @@ namespace PRG2_T06_Team9
                 
                 else if (option == 4)
                 {
-                    Console.WriteLine("Business Name         Business Location         Maximum Capacity");
+                    Console.WriteLine("{0,-30}{1,-20}{2,-20}", "Business Name", "Branch Code", "Maximum Capacity");
                     for (int i = 0; i < bList.Count; i++)
                     {
                         Console.WriteLine(bList[i].ToString());
