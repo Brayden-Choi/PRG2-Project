@@ -4,12 +4,12 @@
 // Module Group : T06
 //============================================================
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Net.Http;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace PRG2_T06_Team9
 {
@@ -283,35 +283,34 @@ namespace PRG2_T06_Team9
 
                 else if (option == 10)
                 {
-                    Console.Write("Enter your name: ");
-                    string personName = Console.ReadLine();
-                    Person searchedPerson = SearchPerson(personList, personName);
-                    if (searchedPerson != null)
+                    bool runloop = true;
+                    while (runloop)
                     {
-                        TravelEntry newTravelEntry = CreateTravelEntry();
-                        for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                        Console.Write("Enter your name: ");
+                        string personName = Console.ReadLine();
+                        Person searchedPerson = SearchPerson(personList, personName);
+                        if (searchedPerson != null)
                         {
-                            searchedPerson.TravelEntryList[i].CalculateSHNDuration();
-                        }
+                            TravelEntry newTravelEntry = CreateTravelEntry();
+                            newTravelEntry.CalculateSHNDuration();
+                            searchedPerson.AddTravelEntry(newTravelEntry);
 
-                        while (true)
-                        {
-                            Console.Write("Would you like to add a SHN Facility? (Y/N): ");
-                            string reply = Console.ReadLine();
-                            if (reply == "Y")
+                            while (runloop)
                             {
-                                while (true)
+                                Console.Write("Would you like to add a SHN Facility? (Y/N): ");
+                                string reply = Console.ReadLine().ToLower();
+                                if (reply == "y")
                                 {
-                                    string facilityName = assignFacility();
-                                    Console.WriteLine(facilityName);
-                                    SHNFacility facility = SearchFacility(facilityList, facilityName);
-                                    for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                                    while (true)
                                     {
-                                        bool isAvail = searchedPerson.TravelEntryList[i].ShnStay.IsAvailable();
+                                        string facilityName = assignFacility();
+                                        SHNFacility facility = SearchFacility(facilityList, facilityName);
+                                        bool isAvail = facility.IsAvailable();
                                         if (isAvail)
                                         {
-                                            searchedPerson.TravelEntryList[i].AssignSHNFacility(facility);
-                                            searchedPerson.TravelEntryList[i].ShnStay.FacilityVacancy -= 1;
+                                            newTravelEntry.AssignSHNFacility(facility);
+                                            facility.FacilityVacancy -= 1;
+                                            runloop = false;
                                             break;
                                         }
                                         else
@@ -319,34 +318,39 @@ namespace PRG2_T06_Team9
                                             Console.WriteLine("Facility has no vacant slots. Please choose another one.");
                                         }
                                     }
+                                }
+                                else if (reply == "n")
+                                {
+                                    Console.WriteLine("Travel Entry Added.");
                                     break;
                                 }
-                            }
-                            else if (reply == "N")
-                            {
-                                Console.WriteLine("Travel Entry Added.");
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Invalid option. Please try again.");
+                                else
+                                {
+                                    Console.WriteLine("Invalid option. Please try again.");
+                                }
                             }
                         }
-                        
-
-                        searchedPerson.AddTravelEntry(newTravelEntry);
-                    }
-                    else
-                    {
-                        Console.WriteLine("This person does not exist in our database. Please try another name.");              
+                        else
+                        {
+                            Console.WriteLine("This person does not exist in our database. Please try another name.");
+                        }
                     }
                     Console.WriteLine();
                 }
 
-                /*else if (option == 11)
+                else if (option == 11)
                 {
-
-                }*/
+                    Console.Write("Enter your name: ");
+                    string personName = Console.ReadLine();
+                    Person searchedPerson = SearchPerson(personList, personName);
+                    if (searchedPerson != null)
+                    {
+                    }
+                    else
+                    {
+                        Console.WriteLine("This person does not exist in our database. Please try another name.");
+                    }
+                }
 
                 else if (option == 0)
                 {
@@ -588,7 +592,7 @@ namespace PRG2_T06_Team9
             Console.WriteLine("[2] Yozel");
             Console.WriteLine("[3] Mandarin Orchid");
             Console.WriteLine("[4] Small Hostel");
-            
+
             while (true)
             {
                 Console.Write("Select a facility: ");

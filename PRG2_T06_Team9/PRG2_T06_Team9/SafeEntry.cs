@@ -5,8 +5,6 @@
 //============================================================
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PRG2_T06_Team9
 {
@@ -29,7 +27,7 @@ namespace PRG2_T06_Team9
 
         public void PerformCheckOut()
         {
-            
+
         }
 
         public override string ToString()
