@@ -49,10 +49,11 @@ namespace PRG2_T06_Team9
                     if (searchedPerson != null)
                     {
                         Console.WriteLine();
-                        Console.WriteLine("-------------------Person Details---------------------");
+                        Console.WriteLine("------------------------------------------- Person Details --------------------------------------------");
                         Console.WriteLine(searchedPerson.ToString());
                         Console.WriteLine();
-                        Console.WriteLine("-----------------Travel Entry Details-----------------");
+                        Console.WriteLine();
+                        Console.WriteLine("---------------------------------------- Travel Entry Details -----------------------------------------");
                         for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
                         {
                             if (searchedPerson.TravelEntryList is null)
@@ -64,9 +65,9 @@ namespace PRG2_T06_Team9
                                 Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
                             }
                         }
-
                         Console.WriteLine();
-                        Console.WriteLine("-----------------Safe Entry Details-----------------");
+                        Console.WriteLine();
+                        Console.WriteLine("----------------------------------------- Safe Entry Details ------------------------------------------");
                         for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
                         {
                             if (searchedPerson.SafeEntryList is null)
@@ -80,7 +81,8 @@ namespace PRG2_T06_Team9
                             }
                         }
                         Console.WriteLine();
-                        Console.WriteLine("-----------------Token Details-----------------");
+                        Console.WriteLine();
+                        Console.WriteLine("-------------------------------------------- Token Details --------------------------------------------");
                         if (searchedPerson is Resident)
                         {
                             Resident r = (Resident)searchedPerson;
@@ -93,6 +95,7 @@ namespace PRG2_T06_Team9
                                 Console.WriteLine("Serial No: {0,-15}Expiry Date: {1,-30}Collection Location: {2,-15}", r.Token.SerialNo, r.Token.ExpiryDate, r.Token.CollectionLocation);
                             }
                         }
+                        Console.WriteLine();
                         Console.WriteLine();
                     }
                     else
@@ -210,11 +213,14 @@ namespace PRG2_T06_Team9
                 
                 else if (option == 4)
                 {
+                    Console.WriteLine("------------------------ Business Locations ------------------------");
+                    Console.WriteLine();
                     Console.WriteLine("{0,-30}{1,-20}{2,-20}", "Business Name", "Branch Code", "Maximum Capacity");
                     for (int i = 0; i < bList.Count; i++)
                     {
                         Console.WriteLine(bList[i].ToString());
                     }
+                    Console.WriteLine();
                 }
                 
                 else if (option == 5)
@@ -228,12 +234,10 @@ namespace PRG2_T06_Team9
                             Console.Write("Please edit the maximum capacity: ");
                             int cap = Convert.ToInt32(Console.ReadLine());
                             searchedLocation.MaximumCapacity = cap;
+                            Console.WriteLine("The new maximum capacity for {0} is {1}.", searchedLocation.BusinessName, cap);
+                            break;
                         }
-
-                        else
-                        {
-                            Console.WriteLine("Business location not found. Please try again.");
-                        }
+                        Console.WriteLine("Business location not found. Please try again.");
                     }   
                 }
 
@@ -261,7 +265,7 @@ namespace PRG2_T06_Team9
                                             SafeEntry SE = new SafeEntry(DateTime.Now, searchedLocation);
                                             searchedLocation.VisitorsNow += 1;
                                             searchedPerson.AddSafeEntry(SE);
-                                            Console.WriteLine("You have successfully checked into {0}",
+                                            Console.WriteLine("You have successfully checked into {0}.",
                                                 searchedLocation.BusinessName);
                                             break;
                                         }
@@ -287,6 +291,7 @@ namespace PRG2_T06_Team9
                         Person searchedPerson = SearchPerson(personList, personName);
                         if (searchedPerson != null)
                         {
+                            uncheckedList.Clear(); 
                             for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
                             {
                                 DateTime empty = new DateTime(0001, 1, 1, 00, 00, 00);
@@ -305,17 +310,15 @@ namespace PRG2_T06_Team9
                                 {
                                     for (int x = 0; x < uncheckedList.Count; x++)
                                     {
-                                        Console.WriteLine("Record: {0}, {1}", x, uncheckedList[x]);
+                                        Console.WriteLine("Record {0}: {1}", x, uncheckedList[x]);
                                     }
-
                                     Console.Write("Please select the record to check out from: ");
                                     int record = Convert.ToInt32(Console.ReadLine());
                                     if (0 < record || record < uncheckedList.Count)
                                     {
-                                        searchedPerson.SafeEntryList[record].Checkout = DateTime.Now;
-                                        Console.WriteLine("You have checked out from {0}.",
-                                            searchedPerson.SafeEntryList[record].Location.BusinessName);
-                                        uncheckedList.Remove(searchedPerson.SafeEntryList[record]);
+                                        uncheckedList[record].Checkout = DateTime.Now;
+                                        Console.WriteLine("You have successfully checked out from {0}.", uncheckedList[record].Location.BusinessName);
+                                        uncheckedList.Remove(uncheckedList[record]);
                                         break;
                                     }
                                     Console.WriteLine("Record not found. Please try again.");
@@ -432,29 +435,44 @@ namespace PRG2_T06_Team9
 
         static int DisplayMenu()
         {
-            Console.WriteLine("|---------------- COVID-19 MONITORING SYSTEM --------------------|");
-            Console.WriteLine();
-            Console.WriteLine("----------------- General --------------------");
-            Console.WriteLine("[1] List All Visitors");
-            Console.WriteLine("[2] List Person Details");
-            Console.WriteLine(" ");
-            Console.WriteLine("-------- SafeEntry/TraceTogether Token -------");
-            Console.WriteLine("[3] Assign/Replace TraceTogether Token");
-            Console.WriteLine("[4] List All Business Locations");
-            Console.WriteLine("[5] Edit Business Location Capacity");
-            Console.WriteLine("[6] SafeEntry Check-in");
-            Console.WriteLine("[7] SafeEntry Check-out");
-            Console.WriteLine();
-            Console.WriteLine("----------------- TravelEntry ----------------");
-            Console.WriteLine("[8] List All SHN Facilities");
-            Console.WriteLine("[9] Create Visitor");
-            Console.WriteLine("[10] Create TravelEntry Record");
-            Console.WriteLine("[11] Calculate SHN Charges");
-            Console.WriteLine("---------------------------------------------");
-            Console.WriteLine("[0] Exit");
-            Console.Write("Enter your option: ");
-            int option = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine();
+            int option = 0;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("|---------------- COVID-19 MONITORING SYSTEM --------------------|");
+                    Console.WriteLine();
+                    Console.WriteLine("----------------- General --------------------");
+                    Console.WriteLine("[1] List All Visitors");
+                    Console.WriteLine("[2] List Person Details");
+                    Console.WriteLine(" ");
+                    Console.WriteLine("-------- SafeEntry/TraceTogether Token -------");
+                    Console.WriteLine("[3] Assign/Replace TraceTogether Token");
+                    Console.WriteLine("[4] List All Business Locations");
+                    Console.WriteLine("[5] Edit Business Location Capacity");
+                    Console.WriteLine("[6] SafeEntry Check-in");
+                    Console.WriteLine("[7] SafeEntry Check-out");
+                    Console.WriteLine();
+                    Console.WriteLine("----------------- TravelEntry ----------------");
+                    Console.WriteLine("[8] List All SHN Facilities");
+                    Console.WriteLine("[9] Create Visitor");
+                    Console.WriteLine("[10] Create TravelEntry Record");
+                    Console.WriteLine("[11] Calculate SHN Charges");
+                    Console.WriteLine();
+                    Console.WriteLine("---------------------------------------------");
+                    Console.WriteLine("[0] Exit");
+                    Console.Write("Enter your option: ");
+                    option = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine();
+                    break;
+                }
+
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Error: " + e.Message);
+                    Console.WriteLine("Please try again.");
+                }
+            }
             return option;
         }
 
@@ -550,7 +568,7 @@ namespace PRG2_T06_Team9
 
         static void DisplayAllVisitors(List<Person> pList)
         {
-            Console.WriteLine("-----------------Visitors-----------------");
+            Console.WriteLine("-------------------------------- Visitors --------------------------------");
             Console.WriteLine();
             foreach (Person p in pList)
             {
