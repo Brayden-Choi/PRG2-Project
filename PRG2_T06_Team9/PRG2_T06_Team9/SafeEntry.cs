@@ -32,7 +32,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return string.Format("Check-in: {0,-15}Check-out: {1,-10}Location: {2,-10}", Checkin, Checkout, Location);
+            return string.Format("Check-in: {0,-30}Check-out: {1,-30}Location: {2,-20}", Checkin, Checkout, Location);
         }
     }
 }

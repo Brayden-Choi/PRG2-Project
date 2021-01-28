@@ -292,8 +292,9 @@ namespace PRG2_T06_Team9
                         if (searchedPerson != null)
                         {
                             TravelEntry newTravelEntry = CreateTravelEntry();
-                            newTravelEntry.CalculateSHNDuration();
                             searchedPerson.AddTravelEntry(newTravelEntry);
+                            newTravelEntry.CalculateSHNDuration();
+                            
 
                             while (runloop)
                             {
@@ -322,6 +323,7 @@ namespace PRG2_T06_Team9
                                 else if (reply == "n")
                                 {
                                     Console.WriteLine("Travel Entry Added.");
+                                    runloop = false;
                                     break;
                                 }
                                 else
@@ -343,11 +345,52 @@ namespace PRG2_T06_Team9
                     Console.Write("Enter your name: ");
                     string personName = Console.ReadLine();
                     Person searchedPerson = SearchPerson(personList, personName);
+                    double totalcost = 0;
+                    List<TravelEntry> unpaidTravelEntry = new List<TravelEntry>();
                     if (searchedPerson != null)
                     {
                         for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
                         {
-                            bool isPaid = searchedPerson.TravelEntryList[i].IsPaid;
+                            if (searchedPerson.TravelEntryList[i].IsPaid == false && searchedPerson.TravelEntryList[i].ShnEndDate < DateTime.Now)
+                            {
+                                unpaidTravelEntry.Add(searchedPerson.TravelEntryList[i]);
+                                if (searchedPerson is Resident)
+                                {
+                                    Resident r = (Resident)searchedPerson;
+                                    totalcost += r.CalculateSHNCharges();
+                                }
+                                else if (searchedPerson is Visitor)
+                                {
+                                    Visitor v = (Visitor)searchedPerson;
+                                    totalcost += v.CalculateSHNCharges();
+                                }
+                                totalcost = totalcost * 1.07;
+                            }
+                            else if (searchedPerson.TravelEntryList[i].IsPaid == true)
+                            {
+                                Console.WriteLine("No SHN charges.");
+                            }
+                        }
+
+
+                        for (int i = 0; i < unpaidTravelEntry.Count; i++)
+                        {
+                            Console.WriteLine("The total SHN charges for {0} is ${1:0.00}.", searchedPerson.Name, totalcost);
+                            Console.Write("Would you like to proceed with payment? (Y/N): ");
+                            string reply = Console.ReadLine().ToLower();
+                            if (reply == "y")
+                            {
+                                Console.WriteLine("Payment completed.");
+                                searchedPerson.TravelEntryList[i].IsPaid = true;
+                                totalcost = 0;
+                                break;
+                            }
+                            if (reply == "n")
+                            {
+                                Console.WriteLine("Transaction cancelled.");
+                                searchedPerson.TravelEntryList[i].IsPaid = false;
+                                break;
+                            }
                         }
                     }
                     else
