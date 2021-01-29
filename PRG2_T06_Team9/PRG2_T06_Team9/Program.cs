@@ -21,6 +21,10 @@ namespace PRG2_T06_Team9
         {
             List<SHNFacility> fList = new List<SHNFacility>();
             List<BusinessLocation> bList = new List<BusinessLocation>();
+            List<SafeEntry> abcList = new List<SafeEntry>();
+            List<SafeEntry> cheapList = new List<SafeEntry>();
+            List<SafeEntry> mallList = new List<SafeEntry>();
+            List<SafeEntry> bbtList = new List<SafeEntry>();
             List<string> tList = new List<string>();
             List<SafeEntry> uncheckedList = new List<SafeEntry>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
@@ -493,7 +497,30 @@ namespace PRG2_T06_Team9
                 }
                 else if (option == 12)
                 {
+                    Console.Write("Please enter a business location: ");
+                    string location = Console.ReadLine();
+                    Console.Write("Enter a time (dd/mm/yyyy) : ");
+                    DateTime time = Convert.ToDateTime(Console.ReadLine());
+                    if ( location == "ABC Spectacle Shop")
+                    {
+                        for (int i = 0; i < personList.Count; i++)
+                        {
+                            for (int x = 0; x < personList[i].SafeEntryList.Count; x++)
+                            {
+                                if (time == personList[i].SafeEntryList[x].Checkin)
+                                {
+                                    abcList.Add(personList[i].SafeEntryList[x]);
+                                    for (int p = 0; p < abcList.Count; p++)
+                                    {
+                                        Console.WriteLine(abcList[p]);
+                                    }
+                                }
+
+                            }
+                        }
+                    }
                 }
+
                 else if (option == 13)
                 {
                 }
@@ -869,6 +896,5 @@ namespace PRG2_T06_Team9
             }
             return null;
         }
-        
     }
 }
