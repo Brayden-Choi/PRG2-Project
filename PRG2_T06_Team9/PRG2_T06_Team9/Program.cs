@@ -334,6 +334,7 @@ namespace PRG2_T06_Team9
                             break;
                         }
                         Console.WriteLine("This person does not exist in our database. Please try again.");
+                        Console.WriteLine();
                     }
                 }
 
@@ -496,11 +497,18 @@ namespace PRG2_T06_Team9
                 }
                 else if (option == 13)
                 {
+                    Console.WriteLine("");
+                    Console.Write("Enter a date(dd/mm/yyyy): ");
+                    DateTime reportDate = Convert.ToDateTime(Console.ReadLine());
                 }
                 else if (option == 0)
                 {
                     Console.WriteLine("Goodbye! Stay Safe!");
                     break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid option. Please try again.");
                 }
             }
         }
@@ -549,6 +557,7 @@ namespace PRG2_T06_Team9
                 {
                     Console.WriteLine("Error: " + e.Message);
                     Console.WriteLine("Please try again.");
+                    Console.WriteLine();
                 }
             }
             return option;
