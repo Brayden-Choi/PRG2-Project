@@ -497,9 +497,26 @@ namespace PRG2_T06_Team9
                 }
                 else if (option == 13)
                 {
+                    List<TravelEntry> SHNStatusList = new List<TravelEntry>();
                     Console.WriteLine("");
                     Console.Write("Enter a date(dd/mm/yyyy): ");
                     DateTime reportDate = Convert.ToDateTime(Console.ReadLine());
+
+                    for (int i = 0; i < personList.Count; i++)
+                    {
+                        for (int x = 0; x < personList[i].TravelEntryList.Count; x++)
+                        {
+                            if (personList[i].TravelEntryList[x].EntryDate == reportDate)
+                            {
+                                SHNStatusList.Add(personList[i].TravelEntryList[x]);
+                                Console.WriteLine("Name: {0,-20} EndDate: {1,-20} Facility: {3,-20}", personList[i].Name, personList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
+                            }
+                        }
+                    }
+
+                   
+                    Console.WriteLine();
+
                 }
                 else if (option == 0)
                 {
