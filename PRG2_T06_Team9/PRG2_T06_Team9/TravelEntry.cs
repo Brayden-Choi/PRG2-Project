@@ -36,7 +36,7 @@ namespace PRG2_T06_Team9
 
         public void CalculateSHNDuration()
         {
-            if (LastCountryOfEmbarkation == "New Zealand" && LastCountryOfEmbarkation == "Vietnam")
+            if (LastCountryOfEmbarkation == "New Zealand" || LastCountryOfEmbarkation == "Vietnam")
             {
                 ShnEndDate = EntryDate.AddDays(0);
             }
@@ -54,7 +54,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return string.Format("Last Country of Embarkation: {0,-15}Entry Mode: {1,-10}Entry Date: {2,-25}End Date: {3,-10}", LastCountryOfEmbarkation, EntryMode, EntryDate, ShnEndDate);
+            return string.Format("Last Country of Embarkation: {0,-15}Entry Mode: {1,-10}Entry Date: {2,-25}End Date: {3,-25}Is Paid: {4,-10}", LastCountryOfEmbarkation, EntryMode, EntryDate, ShnEndDate, IsPaid);
         }
     }
 }
