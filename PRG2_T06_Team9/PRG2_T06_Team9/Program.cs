@@ -11,6 +11,7 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace PRG2_T06_Team9
 {
@@ -43,64 +44,69 @@ namespace PRG2_T06_Team9
 
                 else if (option == 2)
                 {
-                    Console.Write("Enter your name: ");
-                    string personName = Console.ReadLine();
-                    Person searchedPerson = SearchPerson(personList, personName);
-                    if (searchedPerson != null)
+                    while (true)
                     {
-                        Console.WriteLine();
-                        Console.WriteLine("------------------------------------------- Person Details --------------------------------------------");
-                        Console.WriteLine(searchedPerson.ToString());
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine("---------------------------------------- Travel Entry Details -----------------------------------------");
-                        for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                        Console.Write("Enter your name: ");
+                        string personName = Console.ReadLine();
+                        Person searchedPerson = SearchPerson(personList, personName);
+                        if (searchedPerson != null)
                         {
-                            if (searchedPerson.TravelEntryList is null)
+                            Console.WriteLine();
+                            Console.WriteLine("------------------------------------------- Person Details --------------------------------------------");
+                            Console.WriteLine(searchedPerson.ToString());
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            Console.WriteLine("---------------------------------------- Travel Entry Details -----------------------------------------");
+                            for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
                             {
-                                Console.WriteLine("There is no current record of your Travel Entry Details found.");
+                                if (searchedPerson.TravelEntryList is null)
+                                {
+                                    Console.WriteLine("There is no current record of your Travel Entry Details found.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
+                                }
                             }
-                            else
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            Console.WriteLine("----------------------------------------- Safe Entry Details ------------------------------------------");
+                            for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
                             {
-                                Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
-                            }
-                        }
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine("----------------------------------------- Safe Entry Details ------------------------------------------");
-                        for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
-                        {
-                            if (searchedPerson.SafeEntryList is null)
-                            {
-                                Console.WriteLine("There is no current record of your Safe Entry Details found.");
-                            }
+                                if (searchedPerson.SafeEntryList is null)
+                                {
+                                    Console.WriteLine("There is no current record of your Safe Entry Details found.");
+                                }
 
-                            else
-                            {
-                                Console.WriteLine(searchedPerson.SafeEntryList[i].ToString());
+                                else
+                                {
+                                    Console.WriteLine(searchedPerson.SafeEntryList[i].ToString());
+                                }
                             }
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            if (searchedPerson is Resident)
+                            {
+                                Resident r = (Resident)searchedPerson;
+                                Console.WriteLine("-------------------------------------------- Token Details --------------------------------------------");
+                                if (r.Token is null)
+                                {
+                                    Console.WriteLine("There is no current record of your TraceTogether Token found.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Serial No: {0,-15}Expiry Date: {1,-30}Collection Location: {2,-15}", r.Token.SerialNo, r.Token.ExpiryDate, r.Token.CollectionLocation);
+                                }
+                            }
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            break;
                         }
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine("-------------------------------------------- Token Details --------------------------------------------");
-                        if (searchedPerson is Resident)
+                        else
                         {
-                            Resident r = (Resident)searchedPerson;
-                            if (r.Token is null)
-                            {
-                                Console.WriteLine("There is no current record of your TraceTogether Token found.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Serial No: {0,-15}Expiry Date: {1,-30}Collection Location: {2,-15}", r.Token.SerialNo, r.Token.ExpiryDate, r.Token.CollectionLocation);
-                            }
+                            Console.WriteLine("This person does not exist in our database. Please try another name.");
+                            Console.WriteLine();
                         }
-                        Console.WriteLine();
-                        Console.WriteLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine("This person does not exist in our database. Please try another name.");
                     }
                 }
 
@@ -371,7 +377,7 @@ namespace PRG2_T06_Team9
                                 {
                                     while (true)
                                     {
-                                        string facilityName = assignFacility();
+                                        string facilityName = AssignFacility();
                                         SHNFacility facility = SearchFacility(facilityList, facilityName);
                                         bool isAvail = facility.IsAvailable();
                                         if (isAvail)
@@ -384,6 +390,7 @@ namespace PRG2_T06_Team9
                                         else
                                         {
                                             Console.WriteLine("Facility has no vacant slots. Please choose another one.");
+                                            Console.WriteLine();
                                         }
                                     }
                                 }
@@ -435,6 +442,7 @@ namespace PRG2_T06_Team9
                             }
                             else if (searchedPerson.TravelEntryList[i].IsPaid == true)
                             {
+                                totalcost = 0;
                                 Console.WriteLine("No SHN charges.");
                             }
                         }
@@ -449,12 +457,12 @@ namespace PRG2_T06_Team9
                             {
                                 Console.WriteLine("Payment completed.");
                                 searchedPerson.TravelEntryList[i].IsPaid = true;
-                                totalcost = 0;
                                 break;
                             }
                             if (reply == "n")
                             {
                                 Console.WriteLine("Transaction cancelled.");
+                                Console.WriteLine();
                                 searchedPerson.TravelEntryList[i].IsPaid = false;
                                 break;
                             }
@@ -702,19 +710,87 @@ namespace PRG2_T06_Team9
 
         static TravelEntry CreateTravelEntry()
         {
-            Console.Write("Enter your last country of embarkation: ");
-            string lastCountry = Console.ReadLine();
-            Console.Write("Enter your entry mode: ");
-            string entryMode = Console.ReadLine();
-            Console.Write("Enter your entry date(dd/mm/yyyy hh:mm:ss): ");
-            DateTime entryDate = Convert.ToDateTime(Console.ReadLine());
+            while (true)
+            {
+                Console.Write("Enter your last country of embarkation: ");
+                string lastCountry = Console.ReadLine();
+                Console.WriteLine();
+                string entryMode = AssignEntryMode();
+                Console.Write("Enter your entry date(dd/mm/yyyy hh:mm:ss): ");
+                DateTime entryDate = Convert.ToDateTime(Console.ReadLine());
 
-            TravelEntry newTravelEntry = new TravelEntry(lastCountry, entryMode, entryDate);
-            return newTravelEntry;
+                TravelEntry newTravelEntry = new TravelEntry(lastCountry, entryMode, entryDate);
+                return newTravelEntry;
+                
+            }
         }
 
+/*        static int DisplayEntryMode()
+        {
+            int option = 0;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("[1] Air");
+                    Console.WriteLine("[2] Land");
+                    Console.WriteLine("[3] Sea");
 
-        static string assignFacility()
+                    Console.Write("Select your entry mode: ");
+                    option = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine();
+                    break;
+                }
+
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Invalid input. Please try again.");
+                    Console.WriteLine();
+                }
+            }
+            return option;
+        }*/
+
+        static string AssignEntryMode()
+        {
+            Console.WriteLine("[1] Air");
+            Console.WriteLine("[2] Land");
+            Console.WriteLine("[3] Sea");
+
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Select your entry mode: ");
+                    int option = Convert.ToInt32(Console.ReadLine());
+
+                    if (option == 1)
+                    {
+                        return "Air";
+                    }
+                    else if (option == 2)
+                    {
+                        return "Land";
+                    }
+                    else if (option == 3)
+                    {
+                        return "Sea";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid option. Please try again.");
+                        Console.WriteLine();
+                    }
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Invalid option. Please try again.");
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        static string AssignFacility()
         {
             Console.WriteLine("------------ Facilities ---------------");
             Console.WriteLine("[1] A'Resort");
@@ -724,24 +800,37 @@ namespace PRG2_T06_Team9
 
             while (true)
             {
-                Console.Write("Select a facility: ");
-                int option = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    Console.Write("Select a facility: ");
+                    int option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 1)
-                {
-                    return "A'Resort";
+                    if (option == 1)
+                    {
+                        return "A'Resort";
+                    }
+                    else if (option == 2)
+                    {
+                        return "Yozel";
+                    }
+                    else if (option == 3)
+                    {
+                        return "Mandarin Orchid";
+                    }
+                    else if (option == 4)
+                    {
+                        return "Small Hostel";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid option. Please try again.");
+                        Console.WriteLine();
+                    }
                 }
-                else if (option == 2)
+                catch (FormatException e)
                 {
-                    return "Yozel";
-                }
-                else if (option == 3)
-                {
-                    return "Mandarin Orchid";
-                }
-                else if (option == 4)
-                {
-                    return "Small Hostel";
+                    Console.WriteLine("Invalid option. Please try again.");
+                    Console.WriteLine();
                 }
             }
         }
@@ -793,5 +882,6 @@ namespace PRG2_T06_Team9
             }
             return null;
         }
+        
     }
 }
