@@ -524,24 +524,69 @@ namespace PRG2_T06_Team9
 
                 else if (option == 13)
                 {
-                    List<TravelEntry> SHNStatusList = new List<TravelEntry>();
                     Console.WriteLine("");
                     Console.Write("Enter a date(dd/mm/yyyy): ");
                     DateTime reportDate = Convert.ToDateTime(Console.ReadLine());
-
-                    for (int i = 0; i < personList.Count; i++)
+                    string path = @"SHNStatus";
+                    if (!File.Exists(path))
                     {
+                        using (StreamWriter sw = File.CreateText(path))
+                        {
+                            sw.WriteLine("Name");
+                            sw.WriteLine("SHN End Date");
+                            sw.WriteLine("Facility");
+                        }
+                    }
+                    else
+                    {
+                        File.Delete(path);
+                    }
+                    for (int i = 0; i < personList.Count; i++)
+                    { 
                         for (int x = 0; x < personList[i].TravelEntryList.Count; x++)
                         {
                             if (personList[i].TravelEntryList[x].EntryDate == reportDate)
                             {
-                                SHNStatusList.Add(personList[i].TravelEntryList[x]);
-                                Console.WriteLine("Name: {0,-20} EndDate: {1,-20} Facility: {3,-20}", personList[i].Name, personList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
+                                if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14)
+                                {
+                                    string personName = personList[i].Name;
+                                    DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
+                                    string facility = personList[i].TravelEntryList[x].ShnStay.FacilityName;
+                                    
+                                    using (StreamWriter sw = File.AppendText(path))
+                                    {
+                                        sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
+                                    }	
+
+                                }
+                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    string personName = personList[i].Name;
+                                    DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
+                                    string facility = "NIL";
+                                    
+                                    using (StreamWriter sw = File.AppendText(path))
+                                    {
+                                        sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
+                                    }	
+                                }
+                                
                             }
                         }
                     }
+                    using (StreamReader sr = File.OpenText(path))
+                    {
+                        string s = "";
+                        while ((s = sr.ReadLine()) != null)
+                        {
+                            Console.WriteLine(s);
+                        }
+                    }
 
-                   
                     Console.WriteLine();
 
                 }
