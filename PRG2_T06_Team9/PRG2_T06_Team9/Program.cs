@@ -7,11 +7,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Globalization;
 
 namespace PRG2_T06_Team9
 {
@@ -502,7 +500,7 @@ namespace PRG2_T06_Team9
                     string location = Console.ReadLine();
                     Console.Write("Enter a time (dd/mm/yyyy) : ");
                     DateTime time = Convert.ToDateTime(Console.ReadLine());
-                    if ( location == "ABC Spectacle Shop")
+                    if (location == "ABC Spectacle Shop")
                     {
                         for (int i = 0; i < personList.Count; i++)
                         {
@@ -542,7 +540,7 @@ namespace PRG2_T06_Team9
                         File.Delete(path);
                     }
                     for (int i = 0; i < personList.Count; i++)
-                    { 
+                    {
                         for (int x = 0; x < personList[i].TravelEntryList.Count; x++)
                         {
                             if (personList[i].TravelEntryList[x].EntryDate == reportDate)
@@ -552,11 +550,11 @@ namespace PRG2_T06_Team9
                                     string personName = personList[i].Name;
                                     DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
                                     string facility = personList[i].TravelEntryList[x].ShnStay.FacilityName;
-                                    
+
                                     using (StreamWriter sw = File.AppendText(path))
                                     {
                                         sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
-                                    }	
+                                    }
 
                                 }
                                 else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0)
@@ -568,13 +566,13 @@ namespace PRG2_T06_Team9
                                     string personName = personList[i].Name;
                                     DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
                                     string facility = "NIL";
-                                    
+
                                     using (StreamWriter sw = File.AppendText(path))
                                     {
                                         sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
-                                    }	
+                                    }
                                 }
-                                
+
                             }
                         }
                     }
@@ -589,6 +587,74 @@ namespace PRG2_T06_Team9
 
                     Console.WriteLine();
 
+                }
+                else if (option == 14)
+                {
+                    bool runloop = true;
+                    while (runloop)
+                    {
+                        Console.Write("Enter your name: ");
+                        string personName = Console.ReadLine();
+                        Person searchedPerson = SearchPerson(personList, personName);
+                        
+                        if (searchedPerson != null)
+                        {
+                            while (true)
+                            {
+                                Console.Write("Did you test positive for Covid-19? (Y/N): ");
+                                string reply = Console.ReadLine().ToLower();
+                                if (reply == "y")
+                                {
+                                    searchedPerson.hasCovid = true;
+                                    Console.WriteLine("OK.");
+                                    Console.WriteLine();
+                                    runloop = false;
+                                    break;
+                                }
+                                else if (reply == "n")
+                                {
+                                    searchedPerson.hasCovid = false;
+                                    Console.WriteLine("OK.");
+                                    Console.WriteLine();
+                                    runloop = false;
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid input. Please try again.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("This person does not exist in our database. Please try another name.");
+                        }
+                    }
+                }
+                else if (option == 15)
+                {
+                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", "Name", "Last Country of Embarkation", "Entry Date", "End Date", "Facility");
+                    for (int i = 0; i < personList.Count; i++)
+                    {
+                        for (int x = personList[i].TravelEntryList.Count-1; x < personList[i].TravelEntryList.Count; x++)
+                        {
+                            if (personList[i].hasCovid == true)
+                            {
+                                if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14)
+                                {
+                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
+                                }
+                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 7)
+                                {
+                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, "NIL");
+                                }
+                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0)
+                                {
+                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, "NIL", "NIL", "NIL");
+                                }
+                            }
+                        }
+                    }
                 }
                 else if (option == 0)
                 {
@@ -633,6 +699,8 @@ namespace PRG2_T06_Team9
                     Console.WriteLine("----------------- Additional Features ----------------");
                     Console.WriteLine("[12] Contact Tracing Reporting");
                     Console.WriteLine("[13] SHN Status Reporting");
+                    Console.WriteLine("[14] Declare covid-19 status");
+                    Console.WriteLine("[15] List Covid-19 postive people");
                     Console.WriteLine();
                     Console.WriteLine("---------------------------------------------");
                     Console.WriteLine("[0] Exit");

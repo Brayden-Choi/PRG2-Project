@@ -13,6 +13,7 @@ namespace PRG2_T06_Team9
         public string Name { get; set; }
         public List<SafeEntry> SafeEntryList { get; set; }
         public List<TravelEntry> TravelEntryList { get; set; }
+        public bool hasCovid { get; set; }
 
         public Person()
         {
