@@ -685,24 +685,33 @@ namespace PRG2_T06_Team9
                 else if (option == 15)
                 {
                     Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", "Name", "Last Country of Embarkation", "Entry Date", "End Date", "Facility");
+
                     for (int i = 0; i < personList.Count; i++)
                     {
-                        for (int x = personList[i].TravelEntryList.Count-1; x < personList[i].TravelEntryList.Count; x++)
+                        if (personList[i].hasCovid == true)
                         {
-                            if (personList[i].hasCovid == true)
+                            if (personList[i].TravelEntryList.Count > 0)
                             {
-                                if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14) //For people that stay in a facility
+                                for (int x = personList[i].TravelEntryList.Count - 1; x < personList[i].TravelEntryList.Count; x++)
                                 {
-                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
+                                
+                                    if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14) //For people that stay in a facility
+                                    {
+                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
+                                    }
+                                    else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accomodation 
+                                    {
+                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, "NIL");
+                                    }
+                                    else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0) //For people that have no SHN
+                                    {
+                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, "NIL", "NIL"); //For people that have no SHN
+                                    }
                                 }
-                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accomodation 
-                                {
-                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, "NIL"); 
-                                }
-                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0) //For people that have no SHN
-                                {
-                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, "NIL", "NIL"); //For people that have no SHN
-                                }
+                            }
+                            else if (personList[i].TravelEntryList.Count == 0)
+                            {
+                                Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, "NIL", "NIL", "NIL", "NIL");
                             }
                         }
                     }
