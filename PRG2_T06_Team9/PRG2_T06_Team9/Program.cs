@@ -305,7 +305,7 @@ namespace PRG2_T06_Team9
                                     int record = Convert.ToInt32(Console.ReadLine());
                                     if (0 < record || record < uncheckedList.Count)//Check for the count of the list
                                     {
-                                        uncheckedList[record].Checkout = uncheckedList[record].PerformCheckOut(); //Sets the checkout datetime to the current datetime
+                                        uncheckedList[record].PerformCheckOut(); //Sets the checkout datetime to the current datetime
                                         Console.WriteLine("You have successfully checked out from {0}.", uncheckedList[record].Location.BusinessName);
                                         uncheckedList[record].Location.VisitorsNow -= 1;
                                         break;

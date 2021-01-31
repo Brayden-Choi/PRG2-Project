@@ -27,7 +27,7 @@ namespace PRG2_T06_Team9
 
         public void PerformCheckOut()
         {
-
+            Checkout = DateTime.Now;
         }
 
         public override string ToString()
