@@ -23,15 +23,19 @@ namespace PRG2_T06_Team9
 
             for (int i = 0; i < TravelEntryList.Count; i++)
             {
-                if (TravelEntryList[i].LastCountryOfEmbarkation == "New Zealand" || TravelEntryList[i].LastCountryOfEmbarkation == "Vietnam" || TravelEntryList[i].LastCountryOfEmbarkation == "Macao SAR")
+                if (TravelEntryList[i].IsPaid == false)
                 {
-                    totalcost += 200 + 80;
+                    if (TravelEntryList[i].LastCountryOfEmbarkation == "New Zealand" || TravelEntryList[i].LastCountryOfEmbarkation == "Vietnam" || TravelEntryList[i].LastCountryOfEmbarkation == "Macao SAR")
+                    {
+                        totalcost += 200 + 80;
+                    }
+                    else
+                    {
+                        double transportationCost = TravelEntryList[i].ShnStay.CalculateTravelCost(TravelEntryList[i].EntryMode, TravelEntryList[i].EntryDate);
+                        totalcost += transportationCost + 200 + 2000;
+                    }
                 }
-                else
-                {
-                    double transportationCost = TravelEntryList[i].ShnStay.CalculateTravelCost(TravelEntryList[i].EntryMode, TravelEntryList[i].EntryDate);
-                    totalcost += transportationCost + 200 + 2000;
-                }
+                
             }
             return totalcost;
         }

@@ -23,15 +23,23 @@ namespace PRG2_T06_Team9
         public override double CalculateSHNCharges()
         {
             double totalcost = 0;
+
             for (int i = 0; i < TravelEntryList.Count; i++)
             {
-                if (TravelEntryList[i].LastCountryOfEmbarkation == "New Zealand" || TravelEntryList[i].LastCountryOfEmbarkation == "Vietnam" || TravelEntryList[i].LastCountryOfEmbarkation == "Macao SAR")
+                if (TravelEntryList[i].IsPaid == false)
                 {
-                    totalcost = 200 + 20;
-                }
-                else
-                {
-                    totalcost = 1000 + 200 + 20;
+                    if (TravelEntryList[i].LastCountryOfEmbarkation == "New Zealand" || TravelEntryList[i].LastCountryOfEmbarkation == "Vietnam")
+                    {
+                        totalcost += 200;
+                    }
+                    else if (TravelEntryList[i].LastCountryOfEmbarkation == "Macao SAR")
+                    {
+                        totalcost += 200 + 20;
+                    }
+                    else
+                    {
+                        totalcost += 1000 + 200 + 20;
+                    }
                 }
             }
             return totalcost;
