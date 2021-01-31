@@ -353,6 +353,7 @@ namespace PRG2_T06_Team9
                         {
                             TravelEntry newTravelEntry = CreateTravelEntry(); //Create a new travel entry
                             searchedPerson.AddTravelEntry(newTravelEntry); //Add travelentry to the person
+                            newTravelEntry.IsPaid = false;
                             newTravelEntry.CalculateSHNDuration(); //Call method to calculate SHN duration
 
 
@@ -454,7 +455,7 @@ namespace PRG2_T06_Team9
                                             totalcost = 0;
                                             for (int i = 0; i < unpaidTravelEntry.Count; i++)
                                             {
-                                                searchedPerson.TravelEntryList[i].IsPaid = true;
+                                                unpaidTravelEntry[i].IsPaid = true;
                                             }
                                             runloop = false;
                                             break;
@@ -465,7 +466,7 @@ namespace PRG2_T06_Team9
                                             Console.WriteLine();
                                             for (int i = 0; i < unpaidTravelEntry.Count; i++)
                                             {
-                                                searchedPerson.TravelEntryList[i].IsPaid = false;
+                                                unpaidTravelEntry[i].IsPaid = false;
                                             }
                                             runloop = false;
                                             break;
