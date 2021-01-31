@@ -154,7 +154,7 @@ namespace PRG2_T06_Team9
                                 {
                                     DateTime edDateTime = r.Token.ExpiryDate;
                                     DateTime botspan = edDateTime.AddMonths(-1);
-                                    if (botspan >= DateTime.Now || DateTime.Now <= edDateTime)
+                                    if (DateTime.Now >= botspan && DateTime.Now <= edDateTime)
                                     {
                                         Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
@@ -179,7 +179,7 @@ namespace PRG2_T06_Team9
                                         }
                                     }
 
-                                    else if (edDateTime < DateTime.Now)
+                                    else if (DateTime.Now > edDateTime)
                                     {
                                         Console.WriteLine("Your TraceTogether Token has expired already. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
@@ -203,7 +203,7 @@ namespace PRG2_T06_Team9
                                             Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                         }
                                     }
-                                    else if (botspan >= edDateTime)
+                                    else if (botspan >= DateTime.Now)
                                     {
                                         Console.WriteLine("Your token has not expired yet and is not up for replacement.");
                                     }
