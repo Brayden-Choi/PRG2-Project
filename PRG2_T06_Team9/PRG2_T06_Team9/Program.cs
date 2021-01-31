@@ -673,15 +673,8 @@ namespace PRG2_T06_Team9
                             }
                         }
                     }
-                    using (StreamReader sr = File.OpenText(path))
-                    {
-                        string s = "";
-                        while ((s = sr.ReadLine()) != null)
-                        {
-                            Console.WriteLine(s);
-                        }
-                    }
 
+                    Console.WriteLine("Report has been generated.");
                     Console.WriteLine();
 
                 }
