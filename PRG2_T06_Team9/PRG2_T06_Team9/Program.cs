@@ -37,20 +37,23 @@ namespace PRG2_T06_Team9
 
             while (true)
             {
-                int option = DisplayMenu();
+                int option = DisplayMenu(); //Display the main menu
+
+                //List all visitors
                 if (option == 1)
                 {
                     DisplayAllVisitors(personList);
                     Console.WriteLine();
                 }
 
+                //List person details
                 else if (option == 2)
                 {
                     while (true)
                     {
                         Console.Write("Enter your name: ");
                         string personName = Console.ReadLine();
-                        Person searchedPerson = SearchPerson(personList, personName);
+                        Person searchedPerson = SearchPerson(personList, personName); //Search for person
                         if (searchedPerson != null)
                         {
                             Console.WriteLine();
@@ -104,6 +107,7 @@ namespace PRG2_T06_Team9
                             Console.WriteLine();
                             break;
                         }
+                        //Input validation for name input
                         else
                         {
                             Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
@@ -112,6 +116,7 @@ namespace PRG2_T06_Team9
                     }
                 }
 
+                //Assign and replace trace together token
                 else if (option == 3)
                 {
                     while (true)
@@ -154,7 +159,7 @@ namespace PRG2_T06_Team9
                                 {
 
                                     bool IsEligibleForReplacement = r.Token.IsEligibleForReplacement();
-                                    /*if (IsEligibleForReplacement == true)
+                                    /*
 
                                     DateTime edDateTime = r.Token.ExpiryDate;
                                     DateTime botspan = edDateTime.AddMonths(-1);
@@ -225,6 +230,7 @@ namespace PRG2_T06_Team9
                     }
                 }
 
+                //List all business locations
                 else if (option == 4)
                 {
                     Console.WriteLine("------------------------ Business Locations ------------------------");
@@ -237,6 +243,7 @@ namespace PRG2_T06_Team9
                     Console.WriteLine();
                 }
 
+                //Edit business location capacity
                 else if (option == 5)
                 {
                     while (true)
@@ -256,6 +263,7 @@ namespace PRG2_T06_Team9
                     }
                 }
 
+                //SafeEntry check-in
                 else if (option == 6)
                 {
                     while (true)
@@ -296,6 +304,7 @@ namespace PRG2_T06_Team9
                     }
                 }
 
+                //SafeEntry check-out
                 else if (option == 7)
                 {
                     while (true)
@@ -345,6 +354,7 @@ namespace PRG2_T06_Team9
                     }
                 }
 
+                //List all SHN Facilities
                 else if (option == 8)
                 {
                     Console.WriteLine("{0,-25}{1,-25}{2,-25}{3,-30}{4,-30}{5,-30}", "Facility Name", "Facility Capacity", "Facility Vacancy", "Dist. From Air Checkpoint", "Dist. From Sea Checkpoint", "Dist. From Land Checkpoint");
@@ -355,45 +365,47 @@ namespace PRG2_T06_Team9
                     Console.WriteLine();
                 }
 
+                //Create Visitor
                 else if (option == 9)
                 {
-                    Person newVisitor = CreateVisitor();
+                    Person newVisitor = CreateVisitor(); //Call method to create a visitor
                     personList.Add(newVisitor);
                     Console.WriteLine("Visitor has been added!");
                     Console.WriteLine();
                 }
 
+                //Create TravelEntry Record
                 else if (option == 10)
                 {
-                    bool runloop = true;
+                    bool runloop = true; //for main loop
                     while (runloop)
                     {
                         Console.Write("Enter your name: ");
                         string personName = Console.ReadLine();
-                        Person searchedPerson = SearchPerson(personList, personName);
+                        Person searchedPerson = SearchPerson(personList, personName); //Search for the person
                         if (searchedPerson != null)
                         {
-                            TravelEntry newTravelEntry = CreateTravelEntry();
-                            searchedPerson.AddTravelEntry(newTravelEntry);
-                            newTravelEntry.CalculateSHNDuration();
+                            TravelEntry newTravelEntry = CreateTravelEntry(); //Create a new travel entry
+                            searchedPerson.AddTravelEntry(newTravelEntry); //Add travelentry to the person
+                            newTravelEntry.CalculateSHNDuration(); //Call method to calculate SHN duration
 
 
                             while (runloop)
                             {
-                                if (newTravelEntry.LastCountryOfEmbarkation == "New Zealand" || newTravelEntry.LastCountryOfEmbarkation == "Vietnam" || newTravelEntry.LastCountryOfEmbarkation == "Macao SAR")
+                                if (newTravelEntry.LastCountryOfEmbarkation == "New Zealand" || newTravelEntry.LastCountryOfEmbarkation == "Vietnam" || newTravelEntry.LastCountryOfEmbarkation == "Macao SAR") //For these countries, a facility is not needed
                                 {
                                     Console.WriteLine("Travel Entry added.");
                                     runloop = false;
                                     break;
                                 }
-                                else
+                                else //Facility is needed if the person has arrived from any other country
                                 {
                                     while (true)
                                     {
-                                        string facilityName = AssignFacility();
+                                        string facilityName = AssignFacility(); //Call method to assign a facility
                                         SHNFacility facility = SearchFacility(facilityList, facilityName);
                                         bool isAvail = facility.IsAvailable();
-                                        if (isAvail)
+                                        if (isAvail) //Check if the facility is available
                                         {
                                             Console.WriteLine("Travel Entry added.");
                                             newTravelEntry.AssignSHNFacility(facility);
@@ -419,88 +431,96 @@ namespace PRG2_T06_Team9
                     Console.WriteLine();
                 }
 
+                //Calculate SHN Charges
                 else if (option == 11)
                 {
-                    Console.Write("Enter your name: ");
-                    string personName = Console.ReadLine();
-                    Person searchedPerson = SearchPerson(personList, personName);
-                    List<TravelEntry> unpaidTravelEntry = new List<TravelEntry>();
-                    double totalcost = 0;
                     bool runloop = true;
-                    if (searchedPerson != null)
+                    while (runloop)
                     {
-                        while (runloop)
+                        Console.Write("Enter your name: ");
+                        string personName = Console.ReadLine();
+                        Person searchedPerson = SearchPerson(personList, personName); //Search for the person
+                        List<TravelEntry> unpaidTravelEntry = new List<TravelEntry>(); //List to contain the data of people that have unpaid travel entries
+                        double totalcost = 0;
+                        if (searchedPerson != null)
                         {
-                            for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                            while (runloop)
                             {
-                                if (searchedPerson.TravelEntryList[i].IsPaid == false && searchedPerson.TravelEntryList[i].ShnEndDate < DateTime.Now)
+                                for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
                                 {
-                                    totalcost = 0;
-                                    unpaidTravelEntry.Add(searchedPerson.TravelEntryList[i]);
-                                    if (searchedPerson is Resident)
+                                    if (searchedPerson.TravelEntryList[i].IsPaid == false) //Check if the person has paid or not
                                     {
-                                        Resident r = (Resident)searchedPerson;
-                                        totalcost += r.CalculateSHNCharges();
-                                    }
-                                    else if (searchedPerson is Visitor)
-                                    {
-                                        Visitor v = (Visitor)searchedPerson;
-                                        totalcost += v.CalculateSHNCharges();
-                                    }
-                                    totalcost = totalcost * 1.07;
-                                }
-                            }
-
-                            if (totalcost == 0)
-                            {
-                                Console.WriteLine("No SHN charges.");
-                                break;
-                            }
-
-                            else if (totalcost > 0)
-                            {
-                                while (true)
-                                {
-                                    Console.WriteLine("The total SHN charges for {0} is ${1:0.00}.", searchedPerson.Name, totalcost);
-                                    Console.Write("Would you like to proceed with payment? (Y/N): ");
-                                    string reply = Console.ReadLine().ToLower();
-                                    if (reply == "y")
-                                    {
-                                        Console.WriteLine("Payment completed.");
-                                        Console.WriteLine();
                                         totalcost = 0;
-                                        for (int i = 0; i < unpaidTravelEntry.Count; i++)
+                                        unpaidTravelEntry.Add(searchedPerson.TravelEntryList[i]);
+                                        if (searchedPerson is Resident) //Calculate for Residents
                                         {
-                                            searchedPerson.TravelEntryList[i].IsPaid = true;
+                                            Resident r = (Resident)searchedPerson;
+                                            totalcost += r.CalculateSHNCharges();
                                         }
-                                        runloop = false;
-                                        break;
-                                    }
-                                    else if (reply == "n")
-                                    {
-                                        Console.WriteLine("Transaction cancelled.");
-                                        Console.WriteLine();
-                                        for (int i = 0; i < unpaidTravelEntry.Count; i++)
+                                        else if (searchedPerson is Visitor) //Calculate for Visitors
                                         {
-                                            searchedPerson.TravelEntryList[i].IsPaid = false;
+                                            Visitor v = (Visitor)searchedPerson;
+                                            totalcost += v.CalculateSHNCharges();
                                         }
-                                        runloop = false;
-                                        break;
+                                        totalcost = totalcost * 1.07;
                                     }
-                                    else
+                                }
+
+                                if (totalcost == 0) //Charges have been paid
+                                {
+                                    Console.WriteLine("No SHN charges.");
+                                    Console.WriteLine();
+                                    runloop = false;
+                                    break;
+                                }
+
+                                else if (totalcost > 0) //Charges have not been paid
+                                {
+                                    while (true)
                                     {
-                                        Console.WriteLine("Invalid input. Please try again.");
+                                        Console.WriteLine("The total SHN charges for {0} is ${1:0.00}.", searchedPerson.Name, totalcost);
+                                        Console.Write("Would you like to proceed with payment? (Y/N): "); //Check if the person would like to proceed with payment
+                                        string reply = Console.ReadLine().ToLower();
+                                        if (reply == "y")
+                                        {
+                                            Console.WriteLine("Payment completed.");
+                                            Console.WriteLine();
+                                            totalcost = 0;
+                                            for (int i = 0; i < unpaidTravelEntry.Count; i++)
+                                            {
+                                                searchedPerson.TravelEntryList[i].IsPaid = true;
+                                            }
+                                            runloop = false;
+                                            break;
+                                        }
+                                        else if (reply == "n")
+                                        {
+                                            Console.WriteLine("Transaction cancelled.");
+                                            Console.WriteLine();
+                                            for (int i = 0; i < unpaidTravelEntry.Count; i++)
+                                            {
+                                                searchedPerson.TravelEntryList[i].IsPaid = false;
+                                            }
+                                            runloop = false;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Invalid input. Please try again.");
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
-                        Console.WriteLine();
+                        else
+                        {
+                            Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
+                            Console.WriteLine();
+                        }
                     }
                 }
+
+                //Contact Tracing Reporting
                 else if (option == 12)
                 {
                     Console.Write("Please enter a business location: ");
@@ -618,70 +638,76 @@ namespace PRG2_T06_Team9
                     Console.WriteLine();
                 }
 
-
+                //SHN Status Reporting
                 else if (option == 13)
                 {
-                    Console.WriteLine("");
-                    Console.Write("Enter a date(dd/mm/yyyy): ");
-                    DateTime reportDate = Convert.ToDateTime(Console.ReadLine());
-                    string path = @"C:\Users\elsa\Desktop\OCT 2020 Y1S2\PRG2\PRG2_T06_Team9\PRG2_T06_Team9\PRG2_T06_Team9\SHNStatusReport.csv";
-                    if (!File.Exists(path))
+                    try
                     {
-                        using (StreamWriter sw = File.AppendText(path))
+                        Console.WriteLine("");
+                        Console.Write("Enter a date(dd/mm/yyyy): ");
+                        DateTime reportDate = Convert.ToDateTime(Console.ReadLine());
+                        string path = @"C:\Users\elsa\Desktop\OCT 2020 Y1S2\PRG2\PRG2_T06_Team9\PRG2_T06_Team9\PRG2_T06_Team9\SHNStatusReport.csv"; //Assign path to the current folder
+                        if (!File.Exists(path)) //If the file does not exist, create a new one
                         {
-                            sw.WriteLine("Name, End Date, Facility");
-                        }
-                    }
-                    else
-                    {
-                        File.Delete(path);
-                        using (StreamWriter sw = File.AppendText(path))
-                        {
-                            sw.WriteLine("Name, End Date, Facility");
-                        }
-                    }
-                    for (int i = 0; i < personList.Count; i++)
-                    {
-                        for (int x = 0; x < personList[i].TravelEntryList.Count; x++)
-                        {
-                            if (personList[i].TravelEntryList[x].EntryDate.Day == reportDate.Day)
+                            using (StreamWriter sw = File.AppendText(path)) //Append the header
                             {
-                                if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14)
-                                {
-                                    string personName = personList[i].Name;
-                                    DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
-                                    string facility = personList[i].TravelEntryList[x].ShnStay.FacilityName;
-
-                                    using (StreamWriter sw = File.AppendText(path))
-                                    {
-                                        sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
-                                    }
-
-                                }
-                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0)
-                                {
-                                    continue;
-                                }
-                                else
-                                {
-                                    string personName = personList[i].Name;
-                                    DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
-                                    string facility = "NIL";
-
-                                    using (StreamWriter sw = File.AppendText(path))
-                                    {
-                                        sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
-                                    }
-                                }
-
+                                sw.WriteLine("Name, End Date, Facility");
                             }
                         }
+                        else //If the file already exists, delete the existing data so that a new csv with new data can be generated
+                        {
+                            File.Delete(path);
+                            using (StreamWriter sw = File.AppendText(path))//Append the header
+                            {
+                                sw.WriteLine("Name, End Date, Facility");
+                            }
+                        }
+                        for (int i = 0; i < personList.Count; i++) //Loop through person list
+                        {
+                            for (int x = 0; x < personList[i].TravelEntryList.Count; x++) //Loop through travel entries of the person
+                            {
+                                if (personList[i].TravelEntryList[x].EntryDate.Day == reportDate.Day) //Check if the day input is the same as day of entry of the person
+                                {
+                                    if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14) //For people that stay in a facility
+                                    {
+                                        string personName = personList[i].Name;
+                                        DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
+                                        string facility = personList[i].TravelEntryList[x].ShnStay.FacilityName;
+
+                                        using (StreamWriter sw = File.AppendText(path))
+                                        {
+                                            sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
+                                        }
+
+                                    }
+                                    else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accomodation 
+                                    {
+                                        string personName = personList[i].Name;
+                                        DateTime endDate = personList[i].TravelEntryList[x].ShnEndDate;
+                                        string facility = "NIL";
+
+                                        using (StreamWriter sw = File.AppendText(path))
+                                        {
+                                            sw.WriteLine("\n" + personName + "," + endDate + "," + facility);
+                                        }
+                                    }
+                                    else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0) //For people that have no SHN
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        Console.WriteLine("Report has been generated.");
+                        Console.WriteLine();
                     }
-
-                    Console.WriteLine("Report has been generated.");
-                    Console.WriteLine();
-
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Input format was invalid. Please try again.");
+                    }
                 }
+
+                //Declare Covid-19 status
                 else if (option == 14)
                 {
                     bool runloop = true;
@@ -689,7 +715,7 @@ namespace PRG2_T06_Team9
                     {
                         Console.Write("Enter your name: ");
                         string personName = Console.ReadLine();
-                        Person searchedPerson = SearchPerson(personList, personName);
+                        Person searchedPerson = SearchPerson(personList, personName); //Search for the person
                         
                         if (searchedPerson != null)
                         {
@@ -699,7 +725,7 @@ namespace PRG2_T06_Team9
                                 string reply = Console.ReadLine().ToLower();
                                 if (reply == "y")
                                 {
-                                    searchedPerson.hasCovid = true;
+                                    searchedPerson.hasCovid = true; //Person has Covid-19
                                     Console.WriteLine("OK.");
                                     Console.WriteLine();
                                     runloop = false;
@@ -707,7 +733,7 @@ namespace PRG2_T06_Team9
                                 }
                                 else if (reply == "n")
                                 {
-                                    searchedPerson.hasCovid = false;
+                                    searchedPerson.hasCovid = false; //Person does not have Covid-19
                                     Console.WriteLine("OK.");
                                     Console.WriteLine();
                                     runloop = false;
@@ -726,6 +752,8 @@ namespace PRG2_T06_Team9
                         }
                     }
                 }
+
+                //List Covid-19 positive people
                 else if (option == 15)
                 {
                     Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", "Name", "Last Country of Embarkation", "Entry Date", "End Date", "Facility");
@@ -735,17 +763,17 @@ namespace PRG2_T06_Team9
                         {
                             if (personList[i].hasCovid == true)
                             {
-                                if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14)
+                                if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14) //For people that stay in a facility
                                 {
                                     Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
                                 }
-                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 7)
+                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accomodation 
                                 {
-                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, "NIL");
+                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, "NIL"); 
                                 }
-                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0)
+                                else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0) //For people that have no SHN
                                 {
-                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, "NIL", "NIL");
+                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, "NIL", "NIL"); //For people that have no SHN
                                 }
                             }
                         }
@@ -920,7 +948,7 @@ namespace PRG2_T06_Team9
             }
         }
 
-        static Person SearchPerson(List<Person> pList, string p)
+        static Person SearchPerson(List<Person> pList, string p) //To Search for the person object
         {
             for (int i = 0; i < pList.Count; i++)
             {
@@ -934,7 +962,7 @@ namespace PRG2_T06_Team9
 
 
         /*----------------TRAVEL ENTRY FUNCTIONS-------------------*/
-        static List<SHNFacility> GetFacilityDetails(List<SHNFacility> facilityList)
+        static List<SHNFacility> GetFacilityDetails(List<SHNFacility> facilityList) //Loading SHNFacility data
         {
             using (HttpClient client = new HttpClient())
             {
@@ -953,7 +981,7 @@ namespace PRG2_T06_Team9
             return facilityList;
         }
 
-        static SHNFacility SearchFacility(List<SHNFacility> fList, string f)
+        static SHNFacility SearchFacility(List<SHNFacility> fList, string f) //To search for the facility
         {
             for (int i = 0; i < fList.Count; i++)
             {
@@ -999,7 +1027,7 @@ namespace PRG2_T06_Team9
             }
         }
 
-        static DateTime checkDate()
+        static DateTime checkDate() //Input validation for date
         {
             while (true)
             {
@@ -1027,7 +1055,7 @@ namespace PRG2_T06_Team9
             }
         }
 
-        static string AssignEntryMode()
+        static string AssignEntryMode() //Method for users to select their entry mode
         {
             Console.WriteLine("----- Entry Modes -----");
             Console.WriteLine("[1]  Air");
