@@ -152,14 +152,13 @@ namespace PRG2_T06_Team9
 
                                 else
                                 {
-<<<<<<< HEAD
+
                                     bool IsEligibleForReplacement = r.Token.IsEligibleForReplacement();
                                     /*if (IsEligibleForReplacement == true)
-=======
+
                                     DateTime edDateTime = r.Token.ExpiryDate;
                                     DateTime botspan = edDateTime.AddMonths(-1);
                                     if (DateTime.Now >= botspan && DateTime.Now <= edDateTime)
->>>>>>> a6f57546b91d27134c61c243b31a713a11d067b6
                                     {
                                         Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
@@ -182,15 +181,10 @@ namespace PRG2_T06_Team9
                                             }
                                             Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                         }
-<<<<<<< HEAD
+
                                     }*/
                                     if (IsEligibleForReplacement == true)
-=======
-                                    }
-
-                                    else if (DateTime.Now > edDateTime)
->>>>>>> a6f57546b91d27134c61c243b31a713a11d067b6
-                                    {
+                                    { 
                                         Console.WriteLine("Your TraceTogether Token is about to or has expired already. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
                                         {
@@ -213,12 +207,9 @@ namespace PRG2_T06_Team9
                                             Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                         }
                                     }
-<<<<<<< HEAD
+
                                     else if (IsEligibleForReplacement == false)
-=======
-                                    else if (botspan >= DateTime.Now)
->>>>>>> a6f57546b91d27134c61c243b31a713a11d067b6
-                                    {
+                                    { 
                                         Console.WriteLine("Your token has not expired yet and is not up for replacement.");
                                     }
                                 }
@@ -782,7 +773,7 @@ namespace PRG2_T06_Team9
             {
                 try
                 {
-                    Console.WriteLine("|---------------- COVID-19 MONITORING SYSTEM --------------------|");
+                    Console.WriteLine("--------------------- COVID-19 MONITORING SYSTEM ---------------------");
                     Console.WriteLine();
                     Console.WriteLine("----------------- General --------------------");
                     Console.WriteLine("[1]  List All Visitors");
@@ -804,7 +795,7 @@ namespace PRG2_T06_Team9
                     Console.WriteLine("----------------- Additional Features ----------------");
                     Console.WriteLine("[12] Contact Tracing Reporting");
                     Console.WriteLine("[13] SHN Status Reporting");
-                    Console.WriteLine("[14] Declare covid-19 status");
+                    Console.WriteLine("[14] Declare Covid-19 status");
                     Console.WriteLine("[15] List Covid-19 postive people");
                     Console.WriteLine();
                     Console.WriteLine("---------------------------------------------");
