@@ -152,8 +152,14 @@ namespace PRG2_T06_Team9
 
                                 else
                                 {
+<<<<<<< HEAD
                                     bool IsEligibleForReplacement = r.Token.IsEligibleForReplacement();
                                     /*if (IsEligibleForReplacement == true)
+=======
+                                    DateTime edDateTime = r.Token.ExpiryDate;
+                                    DateTime botspan = edDateTime.AddMonths(-1);
+                                    if (DateTime.Now >= botspan && DateTime.Now <= edDateTime)
+>>>>>>> a6f57546b91d27134c61c243b31a713a11d067b6
                                     {
                                         Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
@@ -176,8 +182,14 @@ namespace PRG2_T06_Team9
                                             }
                                             Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                         }
+<<<<<<< HEAD
                                     }*/
                                     if (IsEligibleForReplacement == true)
+=======
+                                    }
+
+                                    else if (DateTime.Now > edDateTime)
+>>>>>>> a6f57546b91d27134c61c243b31a713a11d067b6
                                     {
                                         Console.WriteLine("Your TraceTogether Token is about to or has expired already. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
@@ -201,7 +213,11 @@ namespace PRG2_T06_Team9
                                             Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                         }
                                     }
+<<<<<<< HEAD
                                     else if (IsEligibleForReplacement == false)
+=======
+                                    else if (botspan >= DateTime.Now)
+>>>>>>> a6f57546b91d27134c61c243b31a713a11d067b6
                                     {
                                         Console.WriteLine("Your token has not expired yet and is not up for replacement.");
                                     }
