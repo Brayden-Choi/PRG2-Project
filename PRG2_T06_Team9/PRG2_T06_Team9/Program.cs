@@ -22,7 +22,7 @@ namespace PRG2_T06_Team9
             List<string> tList = new List<string>();
             List<SafeEntry> uncheckedList = new List<SafeEntry>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
-
+            List<Person> covidPList = new List<Person>();
 
 
             for (int i = 0; i < facilityList.Count; i++)
@@ -634,6 +634,7 @@ namespace PRG2_T06_Team9
                         string personName = Console.ReadLine();
                         Person searchedPerson = SearchPerson(personList, personName); //Search for the person
                         
+
                         if (searchedPerson != null)
                         {
                             while (true)
@@ -642,7 +643,7 @@ namespace PRG2_T06_Team9
                                 string reply = Console.ReadLine().ToLower();
                                 if (reply == "y")
                                 {
-                                    searchedPerson.hasCovid = true; //Person has Covid-19
+                                    covidPList.Add(searchedPerson); //Person has Covid-19
                                     Console.WriteLine("OK.");
                                     Console.WriteLine();
                                     runloop = false;
@@ -650,7 +651,6 @@ namespace PRG2_T06_Team9
                                 }
                                 else if (reply == "n")
                                 {
-                                    searchedPerson.hasCovid = false; //Person does not have Covid-19
                                     Console.WriteLine("OK.");
                                     Console.WriteLine();
                                     runloop = false;
@@ -673,37 +673,41 @@ namespace PRG2_T06_Team9
                 //List Covid-19 positive people
                 else if (option == 15)
                 {
-                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", "Name", "Last Country of Embarkation", "Entry Date", "End Date", "Facility");
-
-                    for (int i = 0; i < personList.Count; i++)
+                    if (covidPList.Count > 0)
                     {
-                        if (personList[i].hasCovid == true)
+                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", "Name", "Last Country of Embarkation", "Entry Date", "End Date", "Facility");
+                        for (int i = 0; i < covidPList.Count; i++)
                         {
-                            if (personList[i].TravelEntryList.Count > 0)
+                            for (int x = covidPList[i].TravelEntryList.Count - 1; x < covidPList[i].TravelEntryList.Count; x++)
                             {
-                                for (int x = personList[i].TravelEntryList.Count - 1; x < personList[i].TravelEntryList.Count; x++)
-                                {
-                                
-                                    if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14) //For people that stay in a facility
+                                if (covidPList[i].TravelEntryList.Count > 0)
+                                { 
+                                    if ((covidPList[i].TravelEntryList[x].ShnEndDate - covidPList[i].TravelEntryList[x].EntryDate).TotalDays == 14) //For people that stay in a facility
                                     {
-                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
+                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, covidPList[i].TravelEntryList[x].LastCountryOfEmbarkation, covidPList[i].TravelEntryList[x].EntryDate, covidPList[i].TravelEntryList[x].ShnEndDate, personList[i].TravelEntryList[x].ShnStay.FacilityName);
                                     }
-                                    else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accomodation 
+                                    else if ((covidPList[i].TravelEntryList[x].ShnEndDate - covidPList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accomodation 
                                     {
-                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, personList[i].TravelEntryList[x].ShnEndDate, "NIL");
+                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, covidPList[i].TravelEntryList[x].LastCountryOfEmbarkation, covidPList[i].TravelEntryList[x].EntryDate, covidPList[i].TravelEntryList[x].ShnEndDate, "NIL");
                                     }
-                                    else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0) //For people that have no SHN
+                                    else if ((covidPList[i].TravelEntryList[x].ShnEndDate - covidPList[i].TravelEntryList[x].EntryDate).TotalDays == 0) //For people that have no SHN
                                     {
-                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, "NIL", "NIL"); //For people that have no SHN
+                                        Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, covidPList[i].TravelEntryList[x].LastCountryOfEmbarkation, covidPList[i].TravelEntryList[x].EntryDate, "NIL", "NIL"); //For people that have no SHN
                                     }
                                 }
-                            }
-                            else if (personList[i].TravelEntryList.Count == 0)
-                            {
-                                Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, "NIL", "NIL", "NIL", "NIL");
+                                else if (covidPList[i].TravelEntryList.Count == 0)
+                                {
+                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, "NIL", "NIL", "NIL", "NIL");
+                                }
+
                             }
                         }
+                    } 
+                    else
+                    {
+                        Console.WriteLine("No records found.");
                     }
+                    
                     Console.WriteLine();
                 }
                 else if (option == 0)
