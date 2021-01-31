@@ -206,9 +206,7 @@ namespace PRG2_T06_Team9
                                             String searchedCollection = SearchCollection(tList, location);
                                             if (searchedCollection != null)
                                             {
-                                                DateTime ed = DateTime.Now.AddMonths(6);
-                                                TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
-                                                r.Token = token;
+                                                r.Token.ReplaceToken(r.Token.SerialNo, location);
                                                 Console.WriteLine("You have successfully replaced your TraceTogether Token.");
                                                 break;
                                             }
@@ -963,15 +961,6 @@ namespace PRG2_T06_Team9
             return null;
         }
 
-        static void InitializeCountryList(List<string> countryList)
-        {
-            string[] countryLines = File.ReadAllLines("Countries.csv");
-            for (int i = 1; i < countryLines.Length; i++)
-            {
-                countryList.Add(countryLines[i]);
-            }
-        }
-
 
         /*----------------TRAVEL ENTRY FUNCTIONS-------------------*/
         static List<SHNFacility> GetFacilityDetails(List<SHNFacility> facilityList) //Loading SHNFacility data
@@ -1036,6 +1025,15 @@ namespace PRG2_T06_Team9
                 TravelEntry newTravelEntry = new TravelEntry(lastCountry, entryMode, entryDate);
                 return newTravelEntry;
                 
+            }
+        }
+
+        static void InitializeCountryList(List<string> countryList)
+        {
+            string[] countryLines = File.ReadAllLines("Countries.csv");
+            for (int i = 1; i < countryLines.Length; i++)
+            {
+                countryList.Add(countryLines[i]);
             }
         }
 
