@@ -652,6 +652,7 @@ namespace PRG2_T06_Team9
                                 }
                                 else if (reply == "n")
                                 {
+                                    covidPList.Remove(searchedPerson);
                                     Console.WriteLine("OK.");
                                     Console.WriteLine();
                                     runloop = false;
