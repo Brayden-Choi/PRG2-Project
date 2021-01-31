@@ -106,7 +106,7 @@ namespace PRG2_T06_Team9
                         }
                         else
                         {
-                            Console.WriteLine("This person does not exist in our database. Please try another name.");
+                            Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
                             Console.WriteLine();
                         }
                     }
@@ -215,7 +215,8 @@ namespace PRG2_T06_Team9
                             }
                             break;
                         }
-                        Console.WriteLine("This person does not exist in our database. Please try another name.");
+                        Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
+                        Console.WriteLine();
                     }
                 }
 
@@ -286,8 +287,8 @@ namespace PRG2_T06_Team9
                             }
                             break;
                         }
-                        Console.WriteLine("This person does not exist in our database. Please try another name.");
-
+                        Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
+                        Console.WriteLine();
                     }
                 }
 
@@ -335,7 +336,7 @@ namespace PRG2_T06_Team9
                             }
                             break;
                         }
-                        Console.WriteLine("This person does not exist in our database. Please try again.");
+                        Console.WriteLine("This person does not exist in our database. Please try again.\nInput is case and space sensitive.");
                         Console.WriteLine();
                     }
                 }
@@ -407,7 +408,8 @@ namespace PRG2_T06_Team9
                         }
                         else
                         {
-                            Console.WriteLine("This person does not exist in our database. Please try another name.");
+                            Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
+                            Console.WriteLine();
                         }
                     }
                     Console.WriteLine();
@@ -491,7 +493,8 @@ namespace PRG2_T06_Team9
                     }
                     else
                     {
-                        Console.WriteLine("This person does not exist in our database. Please try another name.");
+                        Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
+                        Console.WriteLine();
                     }
                 }
                 else if (option == 12)
@@ -525,25 +528,27 @@ namespace PRG2_T06_Team9
                     Console.WriteLine("");
                     Console.Write("Enter a date(dd/mm/yyyy): ");
                     DateTime reportDate = Convert.ToDateTime(Console.ReadLine());
-                    string path = @"SHNStatus";
+                    string path = @"C:\Users\elsa\Desktop\OCT 2020 Y1S2\PRG2\PRG2_T06_Team9\PRG2_T06_Team9\PRG2_T06_Team9\SHNStatusReport.csv";
                     if (!File.Exists(path))
                     {
-                        using (StreamWriter sw = File.CreateText(path))
+                        using (StreamWriter sw = File.AppendText(path))
                         {
-                            sw.WriteLine("Name");
-                            sw.WriteLine("SHN End Date");
-                            sw.WriteLine("Facility");
+                            sw.WriteLine("Name, End Date, Facility");
                         }
                     }
                     else
                     {
                         File.Delete(path);
+                        using (StreamWriter sw = File.AppendText(path))
+                        {
+                            sw.WriteLine("Name, End Date, Facility");
+                        }
                     }
                     for (int i = 0; i < personList.Count; i++)
                     {
                         for (int x = 0; x < personList[i].TravelEntryList.Count; x++)
                         {
-                            if (personList[i].TravelEntryList[x].EntryDate == reportDate)
+                            if (personList[i].TravelEntryList[x].EntryDate.Day == reportDate.Day)
                             {
                                 if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 14)
                                 {
@@ -627,7 +632,8 @@ namespace PRG2_T06_Team9
                         }
                         else
                         {
-                            Console.WriteLine("This person does not exist in our database. Please try another name.");
+                            Console.WriteLine("This person does not exist in our database. Please try another name.\nInput is case and space sensitive.");
+                            Console.WriteLine();
                         }
                     }
                 }
@@ -655,6 +661,7 @@ namespace PRG2_T06_Team9
                             }
                         }
                     }
+                    Console.WriteLine();
                 }
                 else if (option == 0)
                 {
@@ -892,14 +899,42 @@ namespace PRG2_T06_Team9
                 Console.Write("Enter your last country of embarkation: ");
                 string lastCountry = Console.ReadLine();
                 Console.WriteLine();
+
                 string entryMode = AssignEntryMode();
                 Console.WriteLine();
-                Console.Write("Enter your entry date(dd/mm/yyyy hh:mm:ss): ");
-                DateTime entryDate = Convert.ToDateTime(Console.ReadLine());
+                DateTime entryDate = checkDate();
 
                 TravelEntry newTravelEntry = new TravelEntry(lastCountry, entryMode, entryDate);
                 return newTravelEntry;
                 
+            }
+        }
+
+        static DateTime checkDate()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Enter your entry date(dd/mm/yyyy hh:mm:ss): ");
+                    DateTime entryDate = Convert.ToDateTime(Console.ReadLine());
+                    DateTime validStartDate = Convert.ToDateTime("1/1/2020");
+
+                    if (entryDate >= validStartDate && entryDate <= DateTime.Now)
+                    {
+                        return entryDate;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid date. Please enter a date that falls within 1 Jan 2020 and today.");
+                        Console.WriteLine();
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid input format. Please try again.");
+                    Console.WriteLine();
+                }
             }
         }
 
