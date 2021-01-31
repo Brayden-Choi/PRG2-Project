@@ -25,10 +25,19 @@ namespace PRG2_T06_Team9
             ExpiryDate = expiryDate;
         }
 
-        /*public bool IsEligibleForReplacement()
+        public bool IsEligibleForReplacement()
         {
-
-        }*/
+            DateTime edDateTime = ExpiryDate;
+            DateTime botspan = edDateTime.AddMonths(-1);
+            if (edDateTime < DateTime.Now)
+            {
+                return true;
+            }
+            else if (botspan >= edDateTime)
+            {
+                return false;
+            }
+        }
 
         public void ReplaceToken(string serialNo, string collectionLocation)
         {

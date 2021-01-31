@@ -152,9 +152,8 @@ namespace PRG2_T06_Team9
 
                                 else
                                 {
-                                    DateTime edDateTime = r.Token.ExpiryDate;
-                                    DateTime botspan = edDateTime.AddMonths(-1);
-                                    if (botspan >= DateTime.Now || DateTime.Now <= edDateTime)
+                                    bool IsEligibleForReplacement = r.Token.IsEligibleForReplacement();
+                                    /*if (IsEligibleForReplacement == true)
                                     {
                                         Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
@@ -177,11 +176,10 @@ namespace PRG2_T06_Team9
                                             }
                                             Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                         }
-                                    }
-
-                                    else if (edDateTime < DateTime.Now)
+                                    }*/
+                                    if (IsEligibleForReplacement == true)
                                     {
-                                        Console.WriteLine("Your TraceTogether Token has expired already. Please replace it now.");
+                                        Console.WriteLine("Your TraceTogether Token is about to or has expired already. Please replace it now.");
                                         for (int i = 0; i < tList.Count; i++)
                                         {
                                             Console.WriteLine(tList[i]);
@@ -203,7 +201,7 @@ namespace PRG2_T06_Team9
                                             Console.WriteLine("Invalid Collection Point entered. Please try again.");
                                         }
                                     }
-                                    else if (botspan >= edDateTime)
+                                    else if (IsEligibleForReplacement == false)
                                     {
                                         Console.WriteLine("Your token has not expired yet and is not up for replacement.");
                                     }
@@ -275,8 +273,7 @@ namespace PRG2_T06_Team9
                                             SafeEntry SE = new SafeEntry(DateTime.Now, searchedLocation);
                                             searchedLocation.VisitorsNow += 1;
                                             searchedPerson.AddSafeEntry(SE);
-                                            Console.WriteLine("You have successfully checked into {0}.",
-                                                searchedLocation.BusinessName);
+                                            Console.WriteLine("You have successfully checked into {0}.", searchedLocation.BusinessName);
                                             break;
                                         }
                                         Console.WriteLine("This business location is full. Please select another one.");
@@ -741,7 +738,7 @@ namespace PRG2_T06_Team9
                                 }
                                 else if ((personList[i].TravelEntryList[x].ShnEndDate - personList[i].TravelEntryList[x].EntryDate).TotalDays == 0)
                                 {
-                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, "NIL", "NIL", "NIL");
+                                    Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", personList[i].Name, personList[i].TravelEntryList[x].LastCountryOfEmbarkation, personList[i].TravelEntryList[x].EntryDate, "NIL", "NIL");
                                 }
                             }
                         }
