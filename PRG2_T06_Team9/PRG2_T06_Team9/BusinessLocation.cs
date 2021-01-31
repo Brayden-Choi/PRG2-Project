@@ -17,12 +17,13 @@ namespace PRG2_T06_Team9
         {
 
         }
-
+       
         public BusinessLocation(string businessName, string branchCode, int maximumCapacity)
         {
             BusinessName = businessName;
             BranchCode = branchCode;
             MaximumCapacity = maximumCapacity;
+            VisitorsNow = 0;
         }
 
         public bool IsFull()

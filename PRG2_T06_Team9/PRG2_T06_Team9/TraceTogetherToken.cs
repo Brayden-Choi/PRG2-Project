@@ -30,7 +30,7 @@ namespace PRG2_T06_Team9
             DateTime edDateTime = ExpiryDate;
             DateTime botspan = edDateTime.AddMonths(-1);
 
-            if (edDateTime >= DateTime.Now || (DateTime.Now >= botspan && DateTime.Now <= edDateTime))
+            if (edDateTime <= DateTime.Now || (DateTime.Now >= botspan && DateTime.Now <= edDateTime))
             {
                 return true;
             }
