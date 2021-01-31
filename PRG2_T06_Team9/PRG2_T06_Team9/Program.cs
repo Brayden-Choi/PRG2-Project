@@ -62,28 +62,28 @@ namespace PRG2_T06_Team9
                             Console.WriteLine();
                             Console.WriteLine();
                             Console.WriteLine("---------------------------------------- Travel Entry Details -----------------------------------------");
-                            for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                            if (searchedPerson.TravelEntryList.Count == 0)
                             {
-                                if (searchedPerson.TravelEntryList is null)
-                                {
-                                    Console.WriteLine("There is no current record of your Travel Entry Details found.");
-                                }
-                                else
-                                {
-                                    Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
-                                }
+                                Console.WriteLine("There is no current record of your Travel Entry Details found.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
+                                    {
+                                        Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
+                                    }
                             }
                             Console.WriteLine();
                             Console.WriteLine();
                             Console.WriteLine("----------------------------------------- Safe Entry Details ------------------------------------------");
-                            for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
+                            
+                            if (searchedPerson.SafeEntryList.Count == 0)
                             {
-                                if (searchedPerson.SafeEntryList is null)
-                                {
-                                    Console.WriteLine("There is no current record of your Safe Entry Details found.");
-                                }
-
-                                else
+                                Console.WriteLine("There is no current record of your Safe Entry Details found.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < searchedPerson.SafeEntryList.Count; i++)
                                 {
                                     Console.WriteLine(searchedPerson.SafeEntryList[i].ToString());
                                 }
