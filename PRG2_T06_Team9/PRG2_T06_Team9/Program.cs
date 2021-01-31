@@ -19,10 +19,6 @@ namespace PRG2_T06_Team9
         {
             List<SHNFacility> fList = new List<SHNFacility>();
             List<BusinessLocation> bList = new List<BusinessLocation>();
-            List<SafeEntry> abcList = new List<SafeEntry>();
-            List<SafeEntry> cheapList = new List<SafeEntry>();
-            List<SafeEntry> mallList = new List<SafeEntry>();
-            List<SafeEntry> bbtList = new List<SafeEntry>();
             List<string> tList = new List<string>();
             List<SafeEntry> uncheckedList = new List<SafeEntry>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
@@ -496,8 +492,8 @@ namespace PRG2_T06_Team9
                     while (true)
                     {
                         Console.Write("Please enter a business location: ");
-                    string location = Console.ReadLine();
-                    BusinessLocation searchedLocation = SearchBusiness(bList, location);
+                        string location = Console.ReadLine();
+                        BusinessLocation searchedLocation = SearchBusiness(bList, location);
                         if (searchedLocation != null)
                         {
                             Console.Write("Enter a time (dd/mm/yyyy) : ");
@@ -525,7 +521,7 @@ namespace PRG2_T06_Team9
                             {
                                 for (int x = 0; x < personList[i].SafeEntryList.Count; x++)
                                 {
-                                    if (location == "ABC Spectacle Shop")
+                                    if (location == personList[i].SafeEntryList[x].Location.BusinessName)
                                     {
                                         if (time.Day == personList[i].SafeEntryList[x].Checkin.Day)
                                         {
@@ -546,69 +542,7 @@ namespace PRG2_T06_Team9
                                             Console.WriteLine("No records found.");
                                         }
                                     }
-                                    else if (location == "Cheap Goods Shop")
-                                    {
-                                        if (time.Day == personList[i].SafeEntryList[x].Checkin.Day)
-                                        {
-                                            string personName = personList[i].Name;
-                                            DateTime checkIn = personList[i].SafeEntryList[x].Checkin;
-                                            DateTime checkOut = personList[i].SafeEntryList[x].Checkout;
-                                            BusinessLocation bL = personList[i].SafeEntryList[x].Location;
-
-                                            using (StreamWriter sw = File.AppendText(path))
-                                            {
-                                                sw.WriteLine("\n" + personName + "," + checkIn + "," + checkOut +
-                                                             bL +
-                                                             ",");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("No records found.");
-                                        }
-                                    }
-                                    else if (location == "Big Shopping Centre")
-                                    {
-                                        if (time.Day == personList[i].SafeEntryList[x].Checkin.Day)
-                                        {
-                                            string personName = personList[i].Name;
-                                            DateTime checkIn = personList[i].SafeEntryList[x].Checkin;
-                                            DateTime checkOut = personList[i].SafeEntryList[x].Checkout;
-                                            BusinessLocation bL = personList[i].SafeEntryList[x].Location;
-
-                                            using (StreamWriter sw = File.AppendText(path))
-                                            {
-                                                sw.WriteLine("\n" + personName + "," + checkIn + "," + checkOut +
-                                                             bL +
-                                                             ",");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("No records found.");
-                                        }
-                                    }
-                                    else if (location == "Bubble Tea Shop")
-                                    {
-                                        if (time.Day == personList[i].SafeEntryList[x].Checkin.Day)
-                                        {
-                                            string personName = personList[i].Name;
-                                            DateTime checkIn = personList[i].SafeEntryList[x].Checkin;
-                                            DateTime checkOut = personList[i].SafeEntryList[x].Checkout;
-                                            BusinessLocation bL = personList[i].SafeEntryList[x].Location;
-
-                                            using (StreamWriter sw = File.AppendText(path))
-                                            {
-                                                sw.WriteLine("\n" + personName + "," + checkIn + "," + checkOut +
-                                                             bL +
-                                                             ",");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("No records found.");
-                                        }
-                                    }
+                                   
                                     else
                                     {
                                         Console.WriteLine("Invalid business location entered. Please try again.");
@@ -618,7 +552,6 @@ namespace PRG2_T06_Team9
 
                             using (StreamReader sr = File.OpenText(path))
                             {
-                                Console.WriteLine("Person Name   CheckIn    CheckOut    Business Location");
                                 string s = "";
                                 while ((s = sr.ReadLine()) != null)
                                 {
@@ -640,7 +573,7 @@ namespace PRG2_T06_Team9
                         Console.WriteLine("");
                         Console.Write("Enter a date(dd/mm/yyyy): ");
                         DateTime reportDate = Convert.ToDateTime(Console.ReadLine());
-                        string path = @"C:\Users\elsa\Desktop\OCT 2020 Y1S2\PRG2\PRG2_T06_Team9\PRG2_T06_Team9\PRG2_T06_Team9\SHNStatusReport.csv"; //Assign path to the current folder
+                        string path = @"SHNStatusReport.csv"; //File will be created in the bin folder
                         if (!File.Exists(path)) //If the file does not exist, create a new one
                         {
                             using (StreamWriter sw = File.AppendText(path)) //Append the header
