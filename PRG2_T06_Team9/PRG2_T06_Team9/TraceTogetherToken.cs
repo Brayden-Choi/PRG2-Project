@@ -42,7 +42,14 @@ namespace PRG2_T06_Team9
 
         public void ReplaceToken(string serialNo, string collectionLocation)
         {
+            SerialNo = serialNo;
+            CollectionLocation = collectionLocation;
+            ExpiryDate = DateTime.Now.AddMonths(6); ;
+        }
 
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
