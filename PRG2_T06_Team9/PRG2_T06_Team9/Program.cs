@@ -307,6 +307,7 @@ namespace PRG2_T06_Team9
                                     {
                                         uncheckedList[record].Checkout = DateTime.Now;//Sets the checkout datetime to the current datetime
                                         Console.WriteLine("You have successfully checked out from {0}.", uncheckedList[record].Location.BusinessName);
+                                        uncheckedList[record].Location.VisitorsNow -= 1;
                                         break;
                                     }
                                     Console.WriteLine("Record not found. Please try again.");
