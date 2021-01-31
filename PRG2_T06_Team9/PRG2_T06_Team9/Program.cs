@@ -687,12 +687,8 @@ namespace PRG2_T06_Team9
                             }
                             else if (covidPList[i].TravelEntryList.Count == 0)
                             {
-                                for (int x = 0; x < covidPList[i].TravelEntryList.Count; x++)
-                                {
-                                    DisplayCovidPPeople(covidPList, i, 0);
-                                }
+                                Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, "NIL", "NIL", "NIL", "NIL");
                             }
-                            
                         }
                     } 
                     else
@@ -888,17 +884,13 @@ namespace PRG2_T06_Team9
             {
                 Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, covidPList[i].TravelEntryList[x].LastCountryOfEmbarkation, covidPList[i].TravelEntryList[x].EntryDate, covidPList[i].TravelEntryList[x].ShnEndDate, covidPList[i].TravelEntryList[x].ShnStay.FacilityName);
             }
-            else if ((covidPList[i].TravelEntryList[x].ShnEndDate - covidPList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accomodation 
+            else if ((covidPList[i].TravelEntryList[x].ShnEndDate - covidPList[i].TravelEntryList[x].EntryDate).TotalDays == 7) //For people that stay in their own accommodation 
             {
                 Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, covidPList[i].TravelEntryList[x].LastCountryOfEmbarkation, covidPList[i].TravelEntryList[x].EntryDate, covidPList[i].TravelEntryList[x].ShnEndDate, "NIL");
             }
             else if ((covidPList[i].TravelEntryList[x].ShnEndDate - covidPList[i].TravelEntryList[x].EntryDate).TotalDays == 0) //For people that have no SHN
             {
                 Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, covidPList[i].TravelEntryList[x].LastCountryOfEmbarkation, covidPList[i].TravelEntryList[x].EntryDate, "NIL", "NIL"); //For people that have no SHN
-            }
-            else if (covidPList[i].TravelEntryList.Count == 0)
-            {
-                Console.WriteLine("{0,-20}{1,-35}{2,-40}{3,-40}{4,-40}", covidPList[i].Name, "NIL", "NIL", "NIL", "NIL");
             }
         }
 
