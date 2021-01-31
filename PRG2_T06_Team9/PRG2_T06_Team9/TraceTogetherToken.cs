@@ -49,7 +49,7 @@ namespace PRG2_T06_Team9
 
         public override string ToString()
         {
-            return base.ToString();
+            return string.Format("Serial No: {0,-15} Collection Location: {1,-15} Expiry Date: {2,-10}", SerialNo, CollectionLocation, ExpiryDate);
         }
     }
 }

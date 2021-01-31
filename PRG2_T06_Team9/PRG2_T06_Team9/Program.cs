@@ -72,9 +72,9 @@ namespace PRG2_T06_Team9
                             else
                             {
                                 for (int i = 0; i < searchedPerson.TravelEntryList.Count; i++)
-                                    {
-                                        Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
-                                    }
+                                {
+                                    Console.WriteLine(searchedPerson.TravelEntryList[i].ToString());
+                                }
                             }
                             Console.WriteLine();
                             Console.WriteLine();
@@ -103,7 +103,7 @@ namespace PRG2_T06_Team9
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Serial No: {0,-15}Expiry Date: {1,-30}Collection Location: {2,-15}", r.Token.SerialNo, r.Token.ExpiryDate, r.Token.CollectionLocation);
+                                    Console.WriteLine(r.Token.ToString());
                                 }
                             }
                             Console.WriteLine();
@@ -161,38 +161,6 @@ namespace PRG2_T06_Team9
                                 else
                                 {
                                     bool IsEligibleForReplacement = r.Token.IsEligibleForReplacement();
-<<<<<<< HEAD
-=======
-                                    /*
-
-                                    DateTime edDateTime = r.Token.ExpiryDate;
-                                    DateTime botspan = edDateTime.AddMonths(-1);
-                                    if (DateTime.Now >= botspan && DateTime.Now <= edDateTime)
-                                    {
-                                        Console.WriteLine("Your token's expiry date is coming soon. Please replace it now.");
-                                        for (int i = 0; i < tList.Count; i++)
-                                        {
-                                            Console.WriteLine(tList[i]);
-                                        }
-
-                                        while (true)
-                                        {
-                                            Console.Write("Please select a collection location: ");
-                                            string location = Console.ReadLine();
-                                            String searchedCollection = SearchCollection(tList, location);
-                                            if (searchedCollection != null)
-                                            {
-                                                DateTime ed = DateTime.Now.AddMonths(6);
-                                                TraceTogetherToken token = new TraceTogetherToken(r.Token.SerialNo, location, ed);
-                                                r.Token = token;
-                                                Console.WriteLine("You have successfully replaced your TraceTogether Token.");
-                                                break;
-                                            }
-                                            Console.WriteLine("Invalid Collection Point entered. Please try again.");
-                                        }
-
-                                    }*/
->>>>>>> 2e20fad3620fd85c319aa50b64297f602ba58188
                                     if (IsEligibleForReplacement == true)
                                     { 
                                         Console.WriteLine("Your TraceTogether Token is about to or has expired already. Please replace it now.");
