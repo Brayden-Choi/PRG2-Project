@@ -26,6 +26,9 @@ namespace PRG2_T06_Team9
             List<string> tList = new List<string>();
             List<SafeEntry> uncheckedList = new List<SafeEntry>();
             List<SHNFacility> facilityList = GetFacilityDetails(fList);
+
+
+
             for (int i = 0; i < facilityList.Count; i++)
             {
                 facilityList[i].FacilityVacancy = facilityList[i].FacilityCapacity;
@@ -960,6 +963,15 @@ namespace PRG2_T06_Team9
             return null;
         }
 
+        static void InitializeCountryList(List<string> countryList)
+        {
+            string[] countryLines = File.ReadAllLines("Countries.csv");
+            for (int i = 1; i < countryLines.Length; i++)
+            {
+                countryList.Add(countryLines[i]);
+            }
+        }
+
 
         /*----------------TRAVEL ENTRY FUNCTIONS-------------------*/
         static List<SHNFacility> GetFacilityDetails(List<SHNFacility> facilityList) //Loading SHNFacility data
@@ -1013,17 +1025,40 @@ namespace PRG2_T06_Team9
         {
             while (true)
             {
-                Console.Write("Enter your last country of embarkation: ");
-                string lastCountry = Console.ReadLine();
+                string lastCountry = checkCountry();
                 Console.WriteLine();
 
                 string entryMode = AssignEntryMode();
                 Console.WriteLine();
+
                 DateTime entryDate = checkDate();
 
                 TravelEntry newTravelEntry = new TravelEntry(lastCountry, entryMode, entryDate);
                 return newTravelEntry;
                 
+            }
+        }
+
+        static string checkCountry()
+        {
+            //List of countries in the world
+            List<string> countryList = new List<string>();
+            InitializeCountryList(countryList);
+
+            while (true)
+            {
+                Console.Write("Enter your last country of embarkation: ");
+                string lastCountry = Console.ReadLine();
+
+                if (countryList.Contains(lastCountry))
+                {
+                    return lastCountry;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid country. Please try again.\nInput is case and space sensitive.");
+                    Console.WriteLine();
+                }
             }
         }
 
